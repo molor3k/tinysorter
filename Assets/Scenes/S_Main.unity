@@ -120,67 +120,12 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-<<<<<<< Updated upstream
-  m_NavMeshData: {fileID: 23800000, guid: 335ea02a70fafbb449983eb90330429f, type: 2}
---- !u!1001 &12991298
-=======
   m_NavMeshData: {fileID: 0}
 --- !u!1001 &39043345
->>>>>>> Stashed changes
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-<<<<<<< Updated upstream
-    m_TransformParent: {fileID: 1780611829}
-    m_Modifications:
-    - target: {fileID: 4462702386909368082, guid: 33a41783b3188b440b46e46b3d902d7b,
-        type: 3}
-      propertyPath: m_Name
-      value: M_InventorySlot (6)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4462702386909368083, guid: 33a41783b3188b440b46e46b3d902d7b,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4462702386909368083, guid: 33a41783b3188b440b46e46b3d902d7b,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4462702386909368083, guid: 33a41783b3188b440b46e46b3d902d7b,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4462702386909368083, guid: 33a41783b3188b440b46e46b3d902d7b,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4462702386909368083, guid: 33a41783b3188b440b46e46b3d902d7b,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4462702386909368083, guid: 33a41783b3188b440b46e46b3d902d7b,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4462702386909368083, guid: 33a41783b3188b440b46e46b3d902d7b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4462702386909368083, guid: 33a41783b3188b440b46e46b3d902d7b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4462702386909368083, guid: 33a41783b3188b440b46e46b3d902d7b,
-=======
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: bfbdd34f10e30b84fa9c9b787f42d7aa,
@@ -224,25 +169,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bfbdd34f10e30b84fa9c9b787f42d7aa,
->>>>>>> Stashed changes
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-<<<<<<< Updated upstream
-    - target: {fileID: 4462702386909368083, guid: 33a41783b3188b440b46e46b3d902d7b,
-=======
     - target: {fileID: -8679921383154817045, guid: bfbdd34f10e30b84fa9c9b787f42d7aa,
->>>>>>> Stashed changes
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-<<<<<<< Updated upstream
-    - target: {fileID: 4462702386909368083, guid: 33a41783b3188b440b46e46b3d902d7b,
-=======
     - target: {fileID: -8679921383154817045, guid: bfbdd34f10e30b84fa9c9b787f42d7aa,
->>>>>>> Stashed changes
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
