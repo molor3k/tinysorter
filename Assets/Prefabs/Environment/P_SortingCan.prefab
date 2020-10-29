@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2491228147372616169}
   m_Layer: 0
-  m_Name: M_SortingCan
+  m_Name: P_SortingCan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

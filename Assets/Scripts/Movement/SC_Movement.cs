@@ -16,7 +16,7 @@ public class SC_Movement : MonoBehaviour
 
     void Start()
     {
-        anim = GetComponent<Animator>();
+        anim = controller.GetComponent<Animator>();
     }
 
     void Update()
