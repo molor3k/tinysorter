@@ -17,11 +17,11 @@ public class SC_Movement : MonoBehaviour
     float turnSmoothVelocity;               // Rotation smoothing
 
     // Input 
-    float inputDirection;
+    Vector3 inputDirection;
 
     // States
     bool isRunning;
-    bool isWalking
+    bool isWalking;
 
 
     void Start() {
@@ -38,12 +38,12 @@ public class SC_Movement : MonoBehaviour
         animateCharacter();
     }
 
-    private moveCharacter() {
+    private void moveCharacter() {
         if (isWalking) {
             var speed = isRunning ? runSpeed : walkSpeed;
                 
             // Get a target angle
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y; 
+            float targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + cam.eulerAngles.y; 
 
             // Get angle of smoothed transition between character's and target angle
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime); 
@@ -57,12 +57,12 @@ public class SC_Movement : MonoBehaviour
         }
     }
 
-    private animateCharacter() {
+    private void animateCharacter() {
         anim.SetBool("isWalking", isWalking);
         anim.SetBool("isRunning", isWalking ? isRunning : false);
     }
 
-    private float getInputDirection() {
+    private Vector3 getInputDirection() {
         var inputHorizontalAxis = Input.GetAxisRaw("Horizontal");
         var inputVerticalAxis = Input.GetAxisRaw("Vertical");
 
