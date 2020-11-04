@@ -5715,6 +5715,16 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1359554552}
+    - target: {fileID: 1352196876768162253, guid: 326c2dfffb47c2f48889f0accf68cada,
+        type: 3}
+      propertyPath: walkSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1352196876768162253, guid: 326c2dfffb47c2f48889f0accf68cada,
+        type: 3}
+      propertyPath: runSpeed
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1352196876768162254, guid: 326c2dfffb47c2f48889f0accf68cada,
         type: 3}
       propertyPath: inventory

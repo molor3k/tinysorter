@@ -6,38 +6,67 @@ public class SC_Movement : MonoBehaviour
 {
     public CharacterController controller;
     public Transform cam;
-
-    public float speed = 6f; //Movement speed
-
-    public float turnSmoothTime = 0.1f; //Smooth time when rotating
-    float turnSmoothVelocity; //Smooth animation when rotating
-
     private Animator anim;
 
-    void Start()
-    {
+    // Movement speed
+    public float walkSpeed = 15f; 
+    public float runSpeed = 20f; 
+
+    // Turn settings
+    public float turnSmoothTime = 0.1f;     // Rotation smoothing time
+    float turnSmoothVelocity;               // Rotation smoothing
+
+    // Input 
+    float inputDirection;
+
+    // States
+    bool isRunning;
+    bool isWalking
+
+
+    void Start() {
         anim = controller.GetComponent<Animator>();
     }
 
-    void Update()
-    {
-        float horizontal = Input.GetAxisRaw("Horizontal"); //Left, Right
-        float vertical = Input.GetAxisRaw("Vertical"); //Back, Forward
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized; //Vector operations //.normalized when go diagonally for don't move faster
+    void Update() {
+        inputDirection = getInputDirection();
 
-        //Check if we're moving in any direction is greater or equal then 0.1f
-        if(direction.magnitude >= 0.1f)
-        {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y; //Turn character to target angle
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime); //Turn character by given angle
-            transform.rotation = Quaternion.Euler(0f, angle, 0f); //Performs a rotation
+        isRunning = Input.GetButton("ButtonRun");
+        isWalking = inputDirection.magnitude >= 0.1f;
 
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; //Move declaration
-            controller.Move(moveDir.normalized * speed * Time.deltaTime); //Simple move character
+        moveCharacter();
+        animateCharacter();
+    }
 
-            anim.SetBool("isRunning", true); //Move animation
-        } else {
-            anim.SetBool("isRunning", false); //Idle animation
+    private moveCharacter() {
+        if (isWalking) {
+            var speed = isRunning ? runSpeed : walkSpeed;
+                
+            // Get a target angle
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y; 
+
+            // Get angle of smoothed transition between character's and target angle
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime); 
+
+            // Perform a rotation
+            transform.rotation = Quaternion.Euler(0f, angle, 0f); 
+
+            // Move in a direction of rotation
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; 
+            controller.Move(moveDir.normalized * speed * Time.deltaTime); 
         }
+    }
+
+    private animateCharacter() {
+        anim.SetBool("isWalking", isWalking);
+        anim.SetBool("isRunning", isWalking ? isRunning : false);
+    }
+
+    private float getInputDirection() {
+        var inputHorizontalAxis = Input.GetAxisRaw("Horizontal");
+        var inputVerticalAxis = Input.GetAxisRaw("Vertical");
+
+        // Return normalized value, so character won't move faster if there's a diagonal movement
+        return new Vector3(inputHorizontalAxis, 0f, inputVerticalAxis).normalized; 
     }
 }
