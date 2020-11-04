@@ -5,7 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Item
-  - InventorySlot
+  - Can
+  - RemoveButton
   layers:
   - Default
   - TransparentFX

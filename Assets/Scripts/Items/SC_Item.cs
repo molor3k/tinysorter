@@ -26,8 +26,6 @@ public class SC_Item : MonoBehaviour
         {
             inventory.CloseMessagePanel();
             inventory.AddItem(item, ID, type, description, icon);
-            
-            //Debug.Log("Item picked up");
         }
     }
 }

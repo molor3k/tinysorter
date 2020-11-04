@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SC_Interactable : MonoBehaviour
+public class SC_InteractableItems : MonoBehaviour
 {
     public KeyCode interactKey;
     public UnityEvent interactAction;
@@ -37,8 +37,6 @@ public class SC_Interactable : MonoBehaviour
         {
             isInRange = true;
             inventory.OpenMessagePanel("");
-            
-            //Debug.Log("Player now in range");
         }
     }
 
@@ -49,8 +47,6 @@ public class SC_Interactable : MonoBehaviour
         {
             isInRange = false;
             inventory.CloseMessagePanel();
-            
-            //Debug.Log("Player now not in range");
         }
     }
 }
