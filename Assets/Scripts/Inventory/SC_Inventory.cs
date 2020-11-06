@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,135 +12,130 @@ public class SC_Inventory : MonoBehaviour
     
     private GameObject[] slot;
 
-    public GameObject[] removeButton;
-    private Button[] removeButtonInteraction;
-    private Image[] removeButtonImage;
-    
     private GameObject[] stackItems;
     private TMP_Text[] stackItemsCounter;
 
     private GameObject[] itemHolder;
-    private RemoveButtonID removeButtonID;
 
     private bool inventoryEnabled;
     private int allSlots;
     private int[] counter;
 
-    //
-    public int[] testButtonArray;
-    //
-
     void Start()
     {
-        allSlots = 21; //Set all slots to 21
+        AllSet();
+        CloseMessagePanel(); // Call function which close the message panel
+    }
+
+    void Update()
+    {
+        OpenInventory();
+    }
+
+    private void AllSet()
+    {
+        // Arrays with allSlots indexes
+        allSlots = 9;
 
         itemHolder = new GameObject[allSlots];
 
-        slot = new GameObject[allSlots]; //Set slot as array with 21 indexes
-
-        removeButton = new GameObject[allSlots];
-        removeButtonInteraction = new Button[allSlots];
-        removeButtonImage = new Image[allSlots];
+        slot = new GameObject[allSlots];
 
         stackItems = new GameObject[allSlots];
         stackItemsCounter = new TMP_Text[allSlots];
 
-        removeButtonID = GameObject.Find("RemoveButton").GetComponent<RemoveButtonID>();
-
         counter = new int[allSlots];
-        testButtonArray = new int[allSlots];
 
-        //Set slot holder object to slot index
+        // Set slot holder object to slot index
         for(int i = 0; i < allSlots; i++)
         {
             slot[i] = slotHolder.transform.GetChild(i).gameObject;
 
-            removeButton[i] = slotHolder.transform.GetChild(i).GetChild(1).gameObject;
-            removeButtonInteraction[i] = removeButton[i].GetComponent<Button>();
-            removeButtonImage[i] = removeButton[i].GetComponent<Image>();
-
-            stackItems[i] = slotHolder.transform.GetChild(i).GetChild(2).GetChild(0).gameObject;
+            stackItems[i] = slotHolder.transform.GetChild(i).GetChild(1).GetChild(0).gameObject;
             stackItemsCounter[i] = stackItems[i].GetComponent<TMP_Text>();
  
-            //Check if slot index is null, if true then set empty to true
+            // Set empty to true if slot doesn't contain any
             if(slot[i].GetComponent<SC_Slot>().item == null) 
             {
                 slot[i].GetComponent<SC_Slot>().empty = true;
             }
         }
-
-        CloseMessagePanel(); //Call function which close the message panel
     }
 
-    void Update()
+    // Open/close inventory
+    private void OpenInventory()
     {
-        //Set bool value to inventoryEnabled if click I
         if (Input.GetKeyDown(KeyCode.I))
             inventoryEnabled = !inventoryEnabled;
 
-        //Open/close inventory if true/false
         if(inventoryEnabled == true)
         {
             inventory.SetActive(true);
+            
         } else
         {
             inventory.SetActive(false);
         }
     }
 
+    // Message panel
     public void OpenMessagePanel(string text)
     {
-        messagePanel.SetActive(true); //Open message panel
+        messagePanel.SetActive(true);
     }
 
     public void CloseMessagePanel()
     {
-        messagePanel.SetActive(false); //Close message panel
+        messagePanel.SetActive(false);
     }
 
-    public void AddItem(GameObject itemObject, int itemID, string itemType, string itemDescription, Sprite itemIcon)
+    // Add item to inventory slot
+    public void AddItem(SC_Item item)
     {
-        //Cycle which going trough all slots
         for(int i = 0; i < allSlots; i++)
         {
-            if(itemID == 1)
+            // Check specific item for stack
+            if(item.ID == 1)
             {
-                //Check empty slots if true then move item to slot holder with his parameters (icon, ID, type, ...)
-                if (slot[i].GetComponent<SC_Slot>().ID == itemID)
+                // Check empty slots if true then move item to slot holder with his parameters (icon, ID, type, ...)
+                if (slot[i].GetComponent<SC_Slot>().ID == item.ID)
                 {
-                    itemHolder[i] = itemObject;
+                    itemHolder[i] = item.itemObject;
 
-                    itemHolder[i].GetComponent<SC_Item>().isPickedUp = true; //Set item picked up value to true
+                    slot[i].GetComponent<SC_Slot>().item = itemHolder[i];
+                    slot[i].GetComponent<SC_Slot>().icon = item.icon;
+                    slot[i].GetComponent<SC_Slot>().ID = item.ID;
+                    slot[i].GetComponent<SC_Slot>().type = item.type;
+                    slot[i].GetComponent<SC_Slot>().description = item.description;
+                    slot[i].GetComponent<SC_Slot>().empty = false;
+                    slot[i].GetComponent<SC_Slot>().UpdateSlot(); // Update slot image to item image
 
-                    //itemHolder[i].transform.parent = slot[i].transform;
-                    itemHolder[i].SetActive(false); //Change visibility of picked up item to non-visible
+                    itemHolder[i].GetComponent<SC_Item>().isPickedUp = true; // Set item picked up value to true
 
-                    removeButtonInteraction[i].interactable = true;
-                    removeButtonImage[i].enabled = true;
+                    itemHolder[i].transform.parent = slot[i].transform;
+                    itemHolder[i].SetActive(false); // Change visibility of picked up item to non-visible
 
                     counter[i]++;
                     stackItemsCounter[i].text = counter[i].ToString();
-                    
+
                     break;
-                } else if(slot[i].GetComponent<SC_Slot>().empty && slot[i].GetComponent<SC_Slot>().ID != itemID)
+
+                } else if(slot[i].GetComponent<SC_Slot>().empty && slot[i].GetComponent<SC_Slot>().ID != item.ID)
                 {     
-                    itemHolder[i] = itemObject;
+                    itemHolder[i] = item.itemObject;
 
                     slot[i].GetComponent<SC_Slot>().item = itemHolder[i];
-                    slot[i].GetComponent<SC_Slot>().icon = itemIcon;
-                    slot[i].GetComponent<SC_Slot>().ID = itemID;
-                    slot[i].GetComponent<SC_Slot>().type = itemType;
-                    slot[i].GetComponent<SC_Slot>().description = itemDescription;
+                    slot[i].GetComponent<SC_Slot>().icon = item.icon;
+                    slot[i].GetComponent<SC_Slot>().ID = item.ID;
+                    slot[i].GetComponent<SC_Slot>().type = item.type;
+                    slot[i].GetComponent<SC_Slot>().description = item.description;
                     slot[i].GetComponent<SC_Slot>().empty = false;
-                    slot[i].GetComponent<SC_Slot>().UpdateSlot(); //Update slot image to item image
+                    slot[i].GetComponent<SC_Slot>().UpdateSlot(); // Update slot image to item image
 
-                    itemHolder[i].GetComponent<SC_Item>().isPickedUp = true; //Set item picked up value to true
+                    itemHolder[i].GetComponent<SC_Item>().isPickedUp = true; // Set item picked up value to true
 
-                    //itemHolder[i].transform.parent = slot[i].transform;
-                    itemHolder[i].SetActive(false); //Change visibility of picked up item to non-visible
-
-                    removeButtonInteraction[i].interactable = true;
-                    removeButtonImage[i].enabled = true;
+                    itemHolder[i].transform.parent = slot[i].transform;
+                    itemHolder[i].SetActive(false); // Change visibility of picked up item to non-visible
 
                     counter[i]++;
                     stackItemsCounter[i].text = counter[i].ToString();
@@ -150,26 +144,23 @@ public class SC_Inventory : MonoBehaviour
                 }
             } else
             {
-                //Check empty slots if true then move item to slot holder with his parameters (icon, ID, type, ...)
-                if(slot[i].GetComponent<SC_Slot>().empty && slot[i].GetComponent<SC_Slot>().ID != itemID)
+                // Check empty slots if true then move item to slot holder with his parameters (icon, ID, type, ...)
+                if(slot[i].GetComponent<SC_Slot>().empty && slot[i].GetComponent<SC_Slot>().ID != item.ID)
                 {     
-                    itemHolder[i] = itemObject;
+                    itemHolder[i] = item.itemObject;
 
                     slot[i].GetComponent<SC_Slot>().item = itemHolder[i];
-                    slot[i].GetComponent<SC_Slot>().icon = itemIcon;
-                    slot[i].GetComponent<SC_Slot>().ID = itemID;
-                    slot[i].GetComponent<SC_Slot>().type = itemType;
-                    slot[i].GetComponent<SC_Slot>().description = itemDescription;
+                    slot[i].GetComponent<SC_Slot>().icon = item.icon;
+                    slot[i].GetComponent<SC_Slot>().ID = item.ID;
+                    slot[i].GetComponent<SC_Slot>().type = item.type;
+                    slot[i].GetComponent<SC_Slot>().description = item.description;
                     slot[i].GetComponent<SC_Slot>().empty = false;
-                    slot[i].GetComponent<SC_Slot>().UpdateSlot(); //Update slot image to item image
+                    slot[i].GetComponent<SC_Slot>().UpdateSlot(); // Update slot image to item image
 
-                    itemHolder[i].GetComponent<SC_Item>().isPickedUp = true; //Set item picked up value to true
+                    itemHolder[i].GetComponent<SC_Item>().isPickedUp = true; // Set item picked up value to true
 
-                    //itemHolder[i].transform.parent = slot[i].transform;
-                    itemHolder[i].SetActive(false); //Change visibility of picked up item to non-visible
-
-                    removeButtonInteraction[i].interactable = true;
-                    removeButtonImage[i].enabled = true;
+                    itemHolder[i].transform.parent = slot[i].transform;
+                    itemHolder[i].SetActive(false); // Change visibility of picked up item to non-visible
 
                     break;
                 }
@@ -177,37 +168,53 @@ public class SC_Inventory : MonoBehaviour
         }
     }
 
-    public void DropItem(GameObject itemObject)
+    // Drop item from slot
+    public void DropItem()
     {
         for(int i = 0; i < allSlots; i++)
         {
-            if(!(slot[i].GetComponent<SC_Slot>().empty))
-            {     
-                slot[i].GetComponent<SC_Slot>().item = null;
-                slot[i].GetComponent<SC_Slot>().icon = null;
-                slot[i].GetComponent<SC_Slot>().ID = 0;
-                slot[i].GetComponent<SC_Slot>().type = null;
-                slot[i].GetComponent<SC_Slot>().description = null;
-                slot[i].GetComponent<SC_Slot>().empty = true;
-                slot[i].GetComponent<SC_Slot>().DropUpdateSlot();
+            if(slot[i].GetComponent<SC_Slot>().ID == 1)
+            {
+                if(!(slot[i].GetComponent<SC_Slot>().empty) /*&& slot[i].GetComponent<SC_Slot>().item == */)
+                { 
+                    slot[i].GetComponent<SC_Slot>().item = null;
+                    slot[i].GetComponent<SC_Slot>().icon = null;
+                    slot[i].GetComponent<SC_Slot>().ID = 0;
+                    slot[i].GetComponent<SC_Slot>().type = null;
+                    slot[i].GetComponent<SC_Slot>().description = null;
+                    slot[i].GetComponent<SC_Slot>().empty = true;
+                    slot[i].GetComponent<SC_Slot>().DropUpdateSlot();
 
-                itemHolder[i].GetComponent<SC_Item>().isPickedUp = false;
+                    itemHolder[i].GetComponent<SC_Item>().isPickedUp = false;
 
-                //Here should be transform of the object
-                itemHolder[i].SetActive(true);
+                    // slot[i].transform = ;
+                    itemHolder[i].SetActive(true);
 
-                removeButtonInteraction[i].interactable = false;
-                removeButtonImage[i].enabled = false;
+                    counter[i]--;
+                    stackItemsCounter[i].text = counter[i].ToString();
 
-                counter[i]--;
-                stackItemsCounter[i].text = counter[i].ToString();
-
-                if(counter[i] <= 0)
-                {
-                    stackItemsCounter[i].text = "";
+                    break;
                 }
+            } else
+            {
+                // Check empty slots if true then move item to slot holder with his parameters (icon, ID, type, ...)
+                if(!(slot[i].GetComponent<SC_Slot>().empty) /*&& slot[i].GetComponent<SC_Slot>().item == */)
+                {     
+                    slot[i].GetComponent<SC_Slot>().item = null;
+                    slot[i].GetComponent<SC_Slot>().icon = null;
+                    slot[i].GetComponent<SC_Slot>().ID = 0;
+                    slot[i].GetComponent<SC_Slot>().type = null;
+                    slot[i].GetComponent<SC_Slot>().description = null;
+                    slot[i].GetComponent<SC_Slot>().empty = true;
+                    slot[i].GetComponent<SC_Slot>().DropUpdateSlot();
 
-                break;
+                    itemHolder[i].GetComponent<SC_Item>().isPickedUp = false;
+
+                    // slot[i].transform =;
+                    itemHolder[i].SetActive(true);
+
+                    break;
+                }
             }
         }
     }

@@ -16,15 +16,22 @@ public class SC_Slot : MonoBehaviour
 
     void Start ()
     {
+        AllSet();
+    }
+
+    private void AllSet()
+    {
         slotIconGo = transform.GetChild(0).GetChild(0);
     }
 
+    // Update slot icons when add item
     public void UpdateSlot()
     {
         slotIconGo.GetComponent<Image>().sprite = icon;
         slotIconGo.GetComponent<Image>().enabled = true;
     }
 
+    // Update slot icons when drop item
     public void DropUpdateSlot()
     {
         slotIconGo.GetComponent<Image>().sprite = null;
