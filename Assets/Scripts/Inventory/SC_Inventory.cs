@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
+
 using TMPro;
+using static EasingFunction;
 
 public class SC_Inventory : MonoBehaviour
 {
@@ -25,10 +28,15 @@ public class SC_Inventory : MonoBehaviour
     {
         AllSet();
         CloseMessagePanel(); // Call function which close the message panel
+
+        // TEMPORARY: Set Inventory scale to 0 (DOESN'T WORK BTW, IDK WHY)
+        inventory.SetActive(false);
+        inventory.GetComponent<RectTransform>().localScale = new Vector3(0, 0, 1);
     }
 
     void Update()
     {
+        // Tip: maybe replace with coroutine
         OpenInventory();
     }
 
@@ -62,19 +70,37 @@ public class SC_Inventory : MonoBehaviour
         }
     }
 
+    IEnumerator InventoryAnimation(bool isOpen) {
+        Function easingFunc = GetEasingFunction(Ease.EaseInBounce);
+        float interpolationRatio = 0.0f;
+        float interpolationProgress = 0.0f;
+
+        while (interpolationRatio < 1.0f) {
+            if (isOpen) {
+                inventory.SetActive(true);
+                inventory.GetComponent<RectTransform>().localScale = Vector3.Lerp(inventory.GetComponent<RectTransform>().localScale, new Vector3(1, 1, 1), interpolationRatio);
+            } else {
+                inventory.GetComponent<RectTransform>().localScale = Vector3.Lerp(inventory.GetComponent<RectTransform>().localScale, new Vector3(0, 0, 1), interpolationRatio);
+            }
+
+            interpolationRatio = easingFunc(0, 1, interpolationProgress);
+            interpolationProgress += .05f;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        if (!isOpen) {
+            inventory.SetActive(false);
+        }
+    }
+
     // Open/close inventory
     private void OpenInventory()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I)) {
             inventoryEnabled = !inventoryEnabled;
-
-        if(inventoryEnabled == true)
-        {
-            inventory.SetActive(true);
-            
-        } else
-        {
-            inventory.SetActive(false);
+            StartCoroutine(InventoryAnimation(inventoryEnabled));
+            //inventory.SetActive(inventoryEnabled);
         }
     }
 

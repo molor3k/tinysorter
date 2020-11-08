@@ -14,7 +14,7 @@ public class SC_ItemInHand : MonoBehaviour
 
     void Update()
     {
-        SetItemInHand();
+        //SetItemInHand();
     }
 
     private void AllSet()
