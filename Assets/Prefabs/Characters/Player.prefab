@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 1352196876768162252}
   - component: {fileID: 1352196876768162230}
   - component: {fileID: 1352196876768162231}
-  - component: {fileID: 1352196876768162253}
-  - component: {fileID: 2403648822303898309}
-  - component: {fileID: 1352196876768162254}
+  - component: {fileID: 3806868848710740427}
+  - component: {fileID: 423759107815591893}
+  - component: {fileID: 4815173166346890971}
+  - component: {fileID: 3351619611941104549}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -125,7 +126,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1352196876768162253
+--- !u!114 &3806868848710740427
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,15 +135,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1352196876768162255}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2737a55a4bd438044b9d889caf572265, type: 3}
+  m_Script: {fileID: 11500000, guid: 323102f42279ea6408126cc32b7b08b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 1352196876768162252}
+  controller: {fileID: 0}
   cam: {fileID: 0}
   walkSpeed: 15
   runSpeed: 20
-  turnSmoothTime: 0.15
---- !u!114 &2403648822303898309
+  turnSmoothTime: 0.1
+--- !u!114 &423759107815591893
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,13 +152,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1352196876768162255}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 586d4e91404ced942a073ed46f7ee6a8, type: 3}
+  m_Script: {fileID: 11500000, guid: bf2eb28e78d9b2a42a3f39b2deeddfa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  messagePanel: {fileID: 0}
   hands: 1
   wastePicker: 0
   rake: 0
---- !u!114 &1352196876768162254
+  startRecycle: 0
+--- !u!114 &4815173166346890971
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,12 +169,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1352196876768162255}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e9582ecbc8696647b47aa24aae4df42, type: 3}
+  m_Script: {fileID: 11500000, guid: e5b13a04cbc7e44468c97058cce488b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 0}
-  messagePanel: {fileID: 0}
   slotHolder: {fileID: 0}
+  defaultPosition: {fileID: 0}
+  toolHolder: {fileID: 0}
+  toolHand: {fileID: 0}
+--- !u!114 &3351619611941104549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352196876768162255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e619dd3d3f71074587e51facd010cd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &654562623
 MonoBehaviour:
   m_ObjectHideFlags: 0

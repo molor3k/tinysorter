@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3876820518261321608}
   - component: {fileID: 6937433135163719145}
   - component: {fileID: 1884595106623655053}
-  - component: {fileID: 8030746865583802096}
+  - component: {fileID: 8261180021128781819}
   m_Layer: 0
   m_Name: P_Banana
   m_TagString: Item
@@ -108,7 +108,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.03
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.007, z: 0}
 --- !u!208 &1884595106623655053
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -125,7 +125,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.001, z: -0.0050000004}
   m_TimeToStationary: 0.5
---- !u!114 &8030746865583802096
+--- !u!114 &8261180021128781819
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4402282482883725458}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3122cb4e1157dff4abea7d01e5f4746d, type: 3}
+  m_Script: {fileID: 11500000, guid: 87471dd18bcbcc046bc7f3cc11d42993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemObject: {fileID: 4402282482883725458}

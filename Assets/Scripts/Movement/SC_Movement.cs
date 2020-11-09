@@ -11,8 +11,6 @@ public class SC_Movement : MonoBehaviour
     // Movement speed
     public float walkSpeed = 15f; 
     public float runSpeed = 20f; 
-    private float movementSpeed = 0f;
-    private Vector3 movementDirection;
 
     // Turn settings
     public float turnSmoothTime = 0.1f;     // Rotation smoothing time
@@ -41,14 +39,11 @@ public class SC_Movement : MonoBehaviour
     }
 
     private void moveCharacter() {
-        float targetSpeed = 0f;
-        float targetAngle = transform.rotation.y;
-
         if (isWalking) {
-            targetSpeed = isRunning ? runSpeed : walkSpeed;
+            var speed = isRunning ? runSpeed : walkSpeed;
                 
             // Get a target angle
-            targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + cam.eulerAngles.y; 
+            float targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + cam.eulerAngles.y; 
 
             // Get angle of smoothed transition between character's and target angle
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime); 
@@ -56,15 +51,10 @@ public class SC_Movement : MonoBehaviour
             // Perform a rotation
             transform.rotation = Quaternion.Euler(0f, angle, 0f); 
 
-            // Move direction
-            movementDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; 
+            // Move in a direction of rotation
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; 
+            controller.Move(moveDir.normalized * speed * Time.deltaTime); 
         }
-
-        // Speed
-        movementSpeed += (targetSpeed - movementSpeed) * .1f;
-        
-        // Move in a direction of rotation
-        controller.Move(movementDirection.normalized * movementSpeed * Time.deltaTime); 
     }
 
     private void animateCharacter() {

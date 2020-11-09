@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5257446315400329426}
   - component: {fileID: 5482495891372251108}
   - component: {fileID: 8087382833069382650}
-  - component: {fileID: 478090910489883848}
+  - component: {fileID: 1507882269457897511}
   m_Layer: 0
   m_Name: P_PlasticBottle
   m_TagString: Item
@@ -125,7 +125,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.002, z: 0.0050000004}
   m_TimeToStationary: 0.5
---- !u!114 &478090910489883848
+--- !u!114 &1507882269457897511
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8471704490219939375}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3122cb4e1157dff4abea7d01e5f4746d, type: 3}
+  m_Script: {fileID: 11500000, guid: 87471dd18bcbcc046bc7f3cc11d42993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemObject: {fileID: 8471704490219939375}

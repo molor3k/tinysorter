@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1591902684}
   - component: {fileID: 2375354467074922124}
   - component: {fileID: 1591902683}
-  - component: {fileID: 1591902682}
+  - component: {fileID: 2048715164581485947}
   m_Layer: 0
   m_Name: P_AluminiumBottle
   m_TagString: Item
@@ -125,7 +125,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: -0.001}
   m_TimeToStationary: 0.5
---- !u!114 &1591902682
+--- !u!114 &2048715164581485947
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,12 +134,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8581049069001927010}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3122cb4e1157dff4abea7d01e5f4746d, type: 3}
+  m_Script: {fileID: 11500000, guid: 87471dd18bcbcc046bc7f3cc11d42993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemObject: {fileID: 8581049069001927010}
   icon: {fileID: 21300000, guid: f5db07a79c653a04daaa8e3aee40a32f, type: 3}
-  ID: 4
+  ID: 3
   type: Metal
   description: Aluminium bottle
   isPickedUp: 0

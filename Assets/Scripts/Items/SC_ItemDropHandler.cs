@@ -14,7 +14,7 @@ public class SC_ItemDropHandler : MonoBehaviour, IDropHandler
 
     private void AllSet()
     {
-        inventory = GameObject.Find("Player").GetComponent<SC_Inventory>(); // Use SC_Inventory values, functions, .. in this class
+        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<SC_Inventory>();
     }
 
     public void OnDrop(PointerEventData eventData)

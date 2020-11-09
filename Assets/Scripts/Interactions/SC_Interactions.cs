@@ -1,13 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class SC_Interactions : MonoBehaviour
 {
+    public GameObject messagePanel;
+    
+    private TMP_Text messagePanelText;
+
     // Tools
     public bool hands = true;
     public bool wastePicker;
     public bool rake;
+
+    // Recycling
+    public bool startRecycle;
 
     private SC_Inventory inventory;
     private SC_Item mItemToPickup = null;
@@ -24,13 +32,14 @@ public class SC_Interactions : MonoBehaviour
 
     private void AllSet()
     {
-        // Use SC_Inventory values, functions, .. in this class
-        inventory = GameObject.Find("Player").GetComponent<SC_Inventory>();
+        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<SC_Inventory>();
+        messagePanelText = messagePanel.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
+        CloseMessagePanel();
     }
 
+    // Colliders
     private void OnTriggerEnter(Collider other)
     {
-        // Collider
         if(other.gameObject.CompareTag("Item"))
         {
             SC_Item item = other.GetComponent<SC_Item>();
@@ -39,54 +48,77 @@ public class SC_Interactions : MonoBehaviour
             {
                 if(hands == true && wastePicker == false && rake == false && ((item.type == "Paper") || (item.type == "Plastic") || (item.type == "Organic")))
                 {
-                    inventory.OpenMessagePanel("");
+                    OpenMessagePanel("- Press E to pick up -");
                     mItemToPickup = item;
 
                 } else if(wastePicker == true && hands == false && rake == false && ((item.type == "Paper") || (item.type == "Plastic") || (item.type == "Metal")))
                 {
-                    inventory.OpenMessagePanel("");
+                    OpenMessagePanel("- Press E to pick up -");
                     mItemToPickup = item;
+
                 } else if(rake == true && hands == false && wastePicker == false && ((item.type == "Plastic") || (item.type == "Metal") || (item.type == "Organic")))
                 {
-                    inventory.OpenMessagePanel("");
+                    OpenMessagePanel("- Press E to pick up -");
                     mItemToPickup = item;
                 }
-
             }
 
         } else if(other.gameObject.CompareTag("Can"))
         {
-            Debug.Log("You are colliding with Can");
+            OpenMessagePanel("- Press E to start recycling -");
+            startRecycle = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // Collider
         if(other.gameObject.CompareTag("Item"))
         {
             SC_Item item = other.GetComponent<SC_Item>();
 
             if(item != null)
             {
-                inventory.CloseMessagePanel();
+                CloseMessagePanel();
                 mItemToPickup = null;
             }
 
         } else if(other.gameObject.CompareTag("Can"))
         {
-            Debug.Log("You are no longer colliding with Can");
+            CloseMessagePanel();
+            startRecycle = false;
         }
     }
 
+    // Fire interaction
     private void FireInteraction()
     {
-        // Fire interaction
         if(mItemToPickup != null && mItemToPickup.isPickedUp != true && Input.GetKeyDown(KeyCode.E))
         {
             inventory.AddItem(mItemToPickup);
-            inventory.CloseMessagePanel();
+            CloseMessagePanel();
             mItemToPickup = null;
+
+        } else if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            inventory.TransferWastePicker();
+
+        } else if(Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            inventory.TransferRake();
         }
     }
+
+    // Message panel
+    private void OpenMessagePanel(string text)
+    {
+        messagePanel.SetActive(true);
+        messagePanelText.text = text;
+    }
+
+    private void CloseMessagePanel()
+    {
+        messagePanel.SetActive(false);
+        messagePanelText.text = null;
+    }
+
 }
