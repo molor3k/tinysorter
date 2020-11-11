@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿/*using System;
 using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
 
+using TMPro;
 using static EasingFunction;
 
 public class SC_Inventory : MonoBehaviour
@@ -13,25 +13,30 @@ public class SC_Inventory : MonoBehaviour
     public GameObject inventory;
     public GameObject slotHolder;
 
-    //public GameObject defaultPosition;
+    public GameObject defaultPosition;
 
-    /*public GameObject toolHolder;
-    public GameObject toolHand;*/
+    public GameObject toolHolder;
+    public GameObject toolHand;
 
     public SC_CameraController vCam;
 
-    public List<SC_Slot> slotList;
+    private GameObject[] slot;
 
-    /*private GameObject[] toolSlot;
-    private GameObject tool;*/
+    private GameObject[] stackItems;
+    private TMP_Text[] stackItemsCounter;
+
+    private GameObject[] itemHolder;
+
+    private GameObject[] toolSlot;
+    private GameObject tool;
 
     private SC_Interactions interaction;
 
     private bool inventoryEnabled;
     private int allSlots = 7;
     
-    /*private bool toolEnabled;
-    private int allToolSlots = 2;*/
+    private bool toolEnabled;
+    private int allToolSlots = 2;
 
     private bool dropAllStackItems;
 
@@ -49,54 +54,45 @@ public class SC_Inventory : MonoBehaviour
     {
         // Tip: maybe replace with coroutine
         OpenInventory();
-        //SetTool();
+        DropAllStack();
+        SetTool();
     }
 
     private void AllSet()
     {
-        slotList = new List<SC_Slot>();
+        // Arrays
+        slot = new GameObject[allSlots];
 
-        //toolSlot = new GameObject[allToolSlots];
+        itemHolder = new GameObject[allSlots];
+
+        stackItems = new GameObject[allSlots];
+        stackItemsCounter = new TMP_Text[allSlots];
+
+        toolSlot = new GameObject[allToolSlots];
 
         counter = new int[allSlots];
 
+        // Set slot holder object to slot index
         for(int i = 0; i < allSlots; i++)
         {
-            slotList.Add(slotHolder.transform.GetChild(i).GetComponent<SC_Slot>());
+            slot[i] = slotHolder.transform.GetChild(i).gameObject;
+
+            stackItems[i] = slotHolder.transform.GetChild(i).GetChild(1).GetChild(0).gameObject;
+            stackItemsCounter[i] = stackItems[i].GetComponent<TMP_Text>();
+ 
+            // Set empty to true if slot doesn't contain any
+            if(slot[i].GetComponent<SC_Slot>().itemObject == null) 
+            {
+                slot[i].GetComponent<SC_Slot>().empty = true;
+            }
         }
 
-        /*for(int i - 0; i < allToolSlots; i++)
+        for(int i = 0; i < allToolSlots; i++)
         {
             toolSlot[i] = toolHolder.transform.GetChild(i).gameObject;
-        }*/
-
-        interaction = GameObject.FindGameObjectWithTag("Player").GetComponent<SC_Interactions>();
-    }
-
-    public void AddItemToFreeSlot(SC_Item item) {
-        int freeSlotID = 0;
-        int currentSlotID = 0;
-
-        foreach (var slot in slotList)
-        {
-            if (slot.itemID == item.ID) {
-                // pridame
-                slot.AddItem(item);
-                return;
-            } else {
-                if (slot.numberOfItems == 0) {
-                    // pocet nula tak prvy volny
-                    freeSlotID = currentSlotID;
-                    break;
-                }
-            }
-
-            currentSlotID++;
         }
 
-        // pridat ak nebol najdeny ziadny element
-        SC_Slot freeSlot = slotList.ElementAt(freeSlotID);
-        freeSlot.AddItem(item);
+        interaction = GameObject.FindGameObjectWithTag("Player").GetComponent<SC_Interactions>();
     }
 
     IEnumerator InventoryAnimation(bool isOpen) {
@@ -189,7 +185,19 @@ public class SC_Inventory : MonoBehaviour
         } 
     }
 
-    /*private void SetTool()
+    private void DropAllStack()
+    {
+        if (Input.GetButton("Drop"))
+        {
+            dropAllStackItems = true;
+
+        } else
+        {
+            dropAllStackItems = false;
+        }
+    }
+
+    private void SetTool()
     {
         try
         {
@@ -220,12 +228,94 @@ public class SC_Inventory : MonoBehaviour
             interaction.hands = true;
             interaction.rake = false;
         }
-    }*/
+    }
+    
+    // Add item to inventory slot
+    public void AddItem(SC_Item item)
+    {
+        for(int i = 0; i < allSlots; i++)
+        {
+            // Check specific item for stack
+            if(item.ID == 1)
+            {
+                // Check empty slots if true then move item to slot holder with his parameters (icon, ID, type, ...)
+                if (slot[i].GetComponent<SC_Slot>().ID == item.ID)
+                {
+                    itemHolder[i] = item.itemObject;
+
+                    slot[i].GetComponent<SC_Slot>().itemObject = itemHolder[i];
+                    slot[i].GetComponent<SC_Slot>().icon = item.icon;
+                    slot[i].GetComponent<SC_Slot>().ID = item.ID;
+                    slot[i].GetComponent<SC_Slot>().type = item.type;
+                    slot[i].GetComponent<SC_Slot>().description = item.description;
+                    slot[i].GetComponent<SC_Slot>().empty = false;
+                    slot[i].transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = itemHolder[i].GetComponent<SC_Item>().icon;
+                    slot[i].transform.GetChild(0).GetChild(0).GetComponent<Image>().enabled = true;
+
+                    itemHolder[i].GetComponent<SC_Item>().isPickedUp = true; // Set item picked up value to true
+
+                    itemHolder[i].SetActive(false); // Change visibility of picked up item to non-visible
+                    itemHolder[i].transform.parent = slot[i].transform;
+
+                    counter[i]++;
+                    stackItemsCounter[i].text = counter[i].ToString();
+
+                    break;
+
+                } else if(slot[i].GetComponent<SC_Slot>().empty && slot[i].GetComponent<SC_Slot>().ID != item.ID)
+                {     
+                    itemHolder[i] = item.itemObject;
+
+                    slot[i].GetComponent<SC_Slot>().itemObject = itemHolder[i];
+                    slot[i].GetComponent<SC_Slot>().icon = item.icon;
+                    slot[i].GetComponent<SC_Slot>().ID = item.ID;
+                    slot[i].GetComponent<SC_Slot>().type = item.type;
+                    slot[i].GetComponent<SC_Slot>().description = item.description;
+                    slot[i].GetComponent<SC_Slot>().empty = false;
+                    slot[i].transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = itemHolder[i].GetComponent<SC_Item>().icon;
+                    slot[i].transform.GetChild(0).GetChild(0).GetComponent<Image>().enabled = true;
+
+                    itemHolder[i].GetComponent<SC_Item>().isPickedUp = true; // Set item picked up value to true
+
+                    itemHolder[i].SetActive(false); // Change visibility of picked up item to non-visible
+                    itemHolder[i].transform.parent = slot[i].transform;
+
+                    counter[i]++;
+                    stackItemsCounter[i].text = counter[i].ToString();
+
+                    break;
+                }
+            } else
+            {
+                // Check empty slots if true then move item to slot holder with his parameters (icon, ID, type, ...)
+                if(slot[i].GetComponent<SC_Slot>().empty && slot[i].GetComponent<SC_Slot>().ID != item.ID)
+                {     
+                    itemHolder[i] = item.itemObject;
+
+                    slot[i].GetComponent<SC_Slot>().itemObject = itemHolder[i];
+                    slot[i].GetComponent<SC_Slot>().icon = item.icon;
+                    slot[i].GetComponent<SC_Slot>().ID = item.ID;
+                    slot[i].GetComponent<SC_Slot>().type = item.type;
+                    slot[i].GetComponent<SC_Slot>().description = item.description;
+                    slot[i].GetComponent<SC_Slot>().empty = false;
+                    slot[i].transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = itemHolder[i].GetComponent<SC_Item>().icon;
+                    slot[i].transform.GetChild(0).GetChild(0).GetComponent<Image>().enabled = true;
+
+                    itemHolder[i].GetComponent<SC_Item>().isPickedUp = true; // Set item picked up value to true
+
+                    itemHolder[i].SetActive(false); // Change visibility of picked up item to non-visible
+                    itemHolder[i].transform.parent = slot[i].transform;
+
+                    break;
+                }
+            }
+        }
+    }
 
     // Drop item from slot
-    /*public void DropItem()
+    public void DropItem()
     {
-        foreach
+        for(int i = 0; i < allSlots; i++)
         {
             if(slot[i].GetComponent<SC_Slot>().ID == 1 && dropAllStackItems == false)
             {
@@ -295,7 +385,7 @@ public class SC_Inventory : MonoBehaviour
                         }
                     }
                 }
-            } else if(slot[i].GetComponent<SC_Slot>().ID != 1)
+            } else if(slot[i].GetComponent<SC_Slot>().ID != 1 && dropAllStackItems == false)
             {
                 // Check empty slots if true then move item to slot holder with his parameters (icon, ID, type, ...)
                 if(!(slot[i].GetComponent<SC_Slot>().empty))
@@ -316,9 +406,9 @@ public class SC_Inventory : MonoBehaviour
                 }
             }
         }
-    }*/
+    }
 
-    /*public void TransferWastePicker()
+    public void TransferWastePicker()
     {
         toolEnabled = !toolEnabled;
 
@@ -356,5 +446,5 @@ public class SC_Inventory : MonoBehaviour
 
             tool = null;
         }
-    }*/
-}
+    }
+}*/

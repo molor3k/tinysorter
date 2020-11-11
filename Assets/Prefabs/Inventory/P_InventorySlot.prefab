@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 8650214352336604633}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: Counter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 7416293077144705732}
   m_Layer: 5
   m_Name: P_InventorySlot
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -325,12 +325,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 718c846d1080a3342a7e0a403f8ae87e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemObject: {fileID: 0}
-  icon: {fileID: 0}
-  ID: 0
-  type: 
-  description: 
-  empty: 0
 --- !u!1 &8885794207664967737
 GameObject:
   m_ObjectHideFlags: 0

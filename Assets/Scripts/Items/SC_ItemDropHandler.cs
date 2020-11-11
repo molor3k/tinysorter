@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class SC_ItemDropHandler : MonoBehaviour, IDropHandler
 {
-    SC_Inventory inventory;
+    SC_Slot slot;
 
     void Start() 
     {
@@ -14,7 +14,7 @@ public class SC_ItemDropHandler : MonoBehaviour, IDropHandler
 
     private void AllSet()
     {
-        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<SC_Inventory>();
+        slot = GameObject.FindGameObjectWithTag("Player").GetComponent<SC_Slot>();
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -23,7 +23,7 @@ public class SC_ItemDropHandler : MonoBehaviour, IDropHandler
 
         if(!RectTransformUtility.RectangleContainsScreenPoint(invPanel, Input.mousePosition))
         {
-            inventory.DropItem();
+            slot.DropItem();
         }
     }
 }

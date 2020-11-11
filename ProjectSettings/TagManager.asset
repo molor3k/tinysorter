@@ -8,6 +8,8 @@ TagManager:
   - Can
   - WastePicker
   - Rake
+  - Slot
+  - Counter
   layers:
   - Default
   - TransparentFX

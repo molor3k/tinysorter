@@ -8,6 +8,7 @@ public class SC_Interactions : MonoBehaviour
     public GameObject messagePanel;
     
     private TMP_Text messagePanelText;
+    private SC_Inventory inventory;
 
     // Tools
     public bool hands = true;
@@ -17,7 +18,6 @@ public class SC_Interactions : MonoBehaviour
     // Recycling
     public bool startRecycle;
 
-    private SC_Inventory inventory;
     private SC_Item mItemToPickup = null;
 
     void Start()
@@ -32,7 +32,7 @@ public class SC_Interactions : MonoBehaviour
 
     private void AllSet()
     {
-        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<SC_Inventory>();
+        inventory = gameObject.GetComponent<SC_Inventory>();
         messagePanelText = messagePanel.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
     }
 
@@ -97,7 +97,7 @@ public class SC_Interactions : MonoBehaviour
         {
             if (mItemToPickup != null && mItemToPickup.isPickedUp != true) 
             {
-                inventory.AddItem(mItemToPickup);
+                inventory.AddItemToFreeSlot(mItemToPickup);
                 CloseMessagePanel();
                 mItemToPickup = null;
 
