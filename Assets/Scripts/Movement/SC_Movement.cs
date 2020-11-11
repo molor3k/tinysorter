@@ -6,61 +6,74 @@ public class SC_Movement : MonoBehaviour
 {
     public CharacterController controller;
     public Transform cam;
-    public SC_CameraController vCam;
 
-    private Animator anim;
+    private SC_CameraController cameraController;
+    private SC_InputController inputController;
+    private SC_StateController stateController;
 
-    // Movement speed
+    // States
+    private SC_StateController.States currentState;
+    private bool isWalking;
+    private bool isRunning;
+    private bool isOpeningInventory;
+
+    // Movement 
     public float walkSpeed = 15f; 
     public float runSpeed = 20f; 
     private float movementSpeed = 0f;
     private Vector3 movementDirection;
+    private Vector3 inputDirection;
 
-    // Turn settings
-    public float turnSmoothTime = 0.1f;     // Rotation smoothing time
-    float turnSmoothVelocity;               // Rotation smoothing
-
-    // Input 
-    Vector3 inputDirection;
-
-    // States
-    bool isRunning;
-    bool isRunningStateBefore;
-
-    bool isWalking;
+    // Rotation
+    public float turnSmoothTime = 0.1f;             // Rotation smoothing time
+    private float turnSmoothVelocity;               // Rotation smoothing
+    private float targetAngle;
 
 
     void Start() {
-        anim = controller.GetComponent<Animator>();
+        cameraController = gameObject.GetComponent<SC_CameraController>();
+        inputController = gameObject.GetComponent<SC_InputController>();
+        stateController = gameObject.GetComponent<SC_StateController>();
     }
 
     void Update() {
-        inputDirection = getInputDirection();
+        inputDirection = inputController.InputDirection;
 
-        isWalking = inputDirection.magnitude >= 0.1f;
-        isRunning = Input.GetButton("ButtonRun") && isWalking;
+        getStates();
 
+        rotateCharacter();
         moveCharacter();
-        animateCharacter();
+    }
+
+    private void getStates() {
+        currentState = stateController.getCurrentState();
+
+        isWalking = currentState == SC_StateController.States.WALK;
+        isRunning = currentState == SC_StateController.States.RUN;
+        isOpeningInventory = currentState == SC_StateController.States.OPEN_INVENTORY;
+    }
+
+    private void rotateCharacter() {
+        if (isOpeningInventory) {
+            targetAngle = 180.0f;
+        } else {
+            if (isWalking || isRunning) {
+                targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + cam.eulerAngles.y; 
+            }
+        }
+
+        // Get angle of smoothed transition between character's and target angle
+        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime); 
+
+        // Perform a rotation
+        transform.rotation = Quaternion.Euler(0f, angle, 0f); 
     }
 
     private void moveCharacter() {
         float targetSpeed = 0f;
-        float targetAngle = transform.rotation.y;
 
-        if (isWalking) {
+        if (isWalking || isRunning) {
             targetSpeed = isRunning ? runSpeed : walkSpeed;
-                
-            // Get a target angle
-            targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + cam.eulerAngles.y; 
-
-            // Get angle of smoothed transition between character's and target angle
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime); 
-
-            // Perform a rotation
-            transform.rotation = Quaternion.Euler(0f, angle, 0f); 
-
-            // Move direction
             movementDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; 
         }
 
@@ -71,24 +84,7 @@ public class SC_Movement : MonoBehaviour
         controller.Move(movementDirection.normalized * movementSpeed * Time.deltaTime); 
         
         // Camera
-        if (isRunningStateBefore != isRunning) {
-            vCam.SetCharacterCamera(isRunning);
-        }
-
-        //
-        isRunningStateBefore = isRunning;
+        cameraController.SetCharacterCamera(isRunning);
     }
 
-    private void animateCharacter() {
-        anim.SetBool("isWalking", isWalking);
-        anim.SetBool("isRunning", isWalking ? isRunning : false);
-    }
-
-    private Vector3 getInputDirection() {
-        var inputHorizontalAxis = Input.GetAxisRaw("Horizontal");
-        var inputVerticalAxis = Input.GetAxisRaw("Vertical");
-
-        // Return normalized value, so character won't move faster if there's a diagonal movement
-        return new Vector3(inputHorizontalAxis, 0f, inputVerticalAxis).normalized; 
-    }
 }

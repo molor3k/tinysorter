@@ -31,8 +31,6 @@ public class SC_CameraController : MonoBehaviour
         var easingType = Ease.EaseOutQuad;
 
         ChangeFOV((isRunning ? runCameraFOV : defaultCameraFOV), easingType, .05f);
-        //ChangePosition(CameraAxis.z, (isRunning ? -22.0f : -27.2f), easingType, .05f);
-        //ChangePosition(CameraAxis.z, (isRunning ? -22.0f : -27.2f), easingType, .05f);
     }
 
     public void OpenInventory() {
