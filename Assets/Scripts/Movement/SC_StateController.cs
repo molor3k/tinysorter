@@ -46,13 +46,33 @@ public class SC_StateController : MonoBehaviour
     }
 
     public void onWalk() {
-        if (currentState == States.IDLE || currentState == States.RUN || currentState == States.RUN_END) {
+        if (currentState == States.IDLE) {
+            StartCoroutine(
+                OnResetStateComplete(
+                    (result => {
+                        if (result) {
+                            currentState = States.WALK;
+                        }
+                    })
+                )
+            );
+        } else if (currentState == States.RUN || currentState == States.RUN_END) {
             currentState = States.WALK;
         }
     }
 
     public void onRun() {
-        if (currentState == States.IDLE || currentState == States.WALK) {
+        if (currentState == States.IDLE) {
+            StartCoroutine(
+                OnResetStateComplete(
+                    (result => {
+                        if (result) {
+                            currentState = States.RUN;
+                        }
+                    })
+                )
+            );
+        } else if (currentState == States.WALK) {
             currentState = States.RUN;
         }
     }

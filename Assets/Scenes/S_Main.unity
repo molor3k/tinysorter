@@ -106422,6 +106422,11 @@ PrefabInstance:
       propertyPath: messagePanel
       value: 
       objectReference: {fileID: 401192792}
+    - target: {fileID: 7788709296854752597, guid: 326c2dfffb47c2f48889f0accf68cada,
+        type: 3}
+      propertyPath: vCamBase
+      value: 
+      objectReference: {fileID: 883441960}
     m_RemovedComponents:
     - {fileID: 654562623, guid: 326c2dfffb47c2f48889f0accf68cada, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 326c2dfffb47c2f48889f0accf68cada, type: 3}
