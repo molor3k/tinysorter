@@ -14,7 +14,7 @@ public class SC_Slot : MonoBehaviour
     public TMP_Text stackCounter;
 
     public int itemID;
-    private string itemType;
+    public string itemType;
     private string itemName;
 
     public int numberOfItems;      //Number of stack items

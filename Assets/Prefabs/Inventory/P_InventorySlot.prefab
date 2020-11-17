@@ -266,6 +266,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c97d9b253ab7e4ca1e3473d9cbbe52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectableTag: Can
+  highlightMaterial: {fileID: 2100000, guid: f42ccac3594c41e4289588ff8df90b8f, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: eedfeca6acee2e1438fcae5cbd50bf51, type: 2}
 --- !u!1 &4726942017218063213
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,6 +328,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 718c846d1080a3342a7e0a403f8ae87e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemIcon: {fileID: 0}
+  stackCounter: {fileID: 0}
+  itemID: 0
+  numberOfItems: 0
 --- !u!1 &8885794207664967737
 GameObject:
   m_ObjectHideFlags: 0
