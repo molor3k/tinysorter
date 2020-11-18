@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 3914714619486523944}
   - component: {fileID: 142997679822790029}
   - component: {fileID: 2745208853172463943}
-  - component: {fileID: 3876820518261321608}
   - component: {fileID: 6937433135163719145}
   - component: {fileID: 1884595106623655053}
   - component: {fileID: 8261180021128781819}
+  - component: {fileID: 3756856420601137497}
   m_Layer: 0
   m_Name: P_Banana
   m_TagString: Item
@@ -83,19 +83,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &3876820518261321608
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4402282482883725458}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.017
-  m_Center: {x: 0, y: 0.001, z: -0.005}
 --- !u!135 &6937433135163719145
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -116,7 +103,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4402282482883725458}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 0
   m_Extents: {x: 0.017, y: 0.012, z: 0.017}
@@ -137,9 +124,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87471dd18bcbcc046bc7f3cc11d42993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemObject: {fileID: 4402282482883725458}
-  icon: {fileID: 21300000, guid: ff7c732f3e92d3a418652e0357ab5478, type: 3}
   ID: 1
-  type: Organic
-  description: Banana
+  itemName: banana
+  icon: {fileID: 21300000, guid: ff7c732f3e92d3a418652e0357ab5478, type: 3}
+  type: 4
   isPickedUp: 0
+--- !u!114 &3756856420601137497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4402282482883725458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd89592d1e874d4d948859a38a2ae91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

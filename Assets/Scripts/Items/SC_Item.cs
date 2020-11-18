@@ -1,14 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static SC_ItemTypes;
 
 public class SC_Item : MonoBehaviour
 {
-    public GameObject itemObject;
-    public Sprite icon;
-
     public int ID;
-    public string type;
-    public string description;
+    public string itemName;
+
+    public Sprite icon;
+    public ItemType type;
+
     public bool isPickedUp;
+    
+
+    public void PickItem() {
+        gameObject.SetActive(false);
+        isPickedUp = true;
+    }
+
+    public void DropItem() {
+        gameObject.SetActive(true);
+        isPickedUp = false;
+    }
 }

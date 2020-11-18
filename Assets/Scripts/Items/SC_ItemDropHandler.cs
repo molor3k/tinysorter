@@ -30,9 +30,9 @@ public class SC_ItemDropHandler : MonoBehaviour, IDropHandler
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if(!RectTransformUtility.RectangleContainsScreenPoint(invPanel, Input.mousePosition))
+        if (!RectTransformUtility.RectangleContainsScreenPoint(invPanel, Input.mousePosition))
         {
-            // inventory.DropSelectedItem();
+            inventory.DropSelectedItem();
         }
 
         if(Physics.Raycast(ray, out hit))

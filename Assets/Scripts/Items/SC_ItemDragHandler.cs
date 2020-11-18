@@ -5,9 +5,9 @@ using UnityEngine.EventSystems;
 
 public class SC_ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler
 {
-    [SerializeField] private string selectableTag = "Can";
-    [SerializeField] private Material highlightMaterial;
-    [SerializeField] private Material defaultMaterial;
+    //[SerializeField] private string selectableTag = "Can";
+    //[SerializeField] private Material highlightMaterial;
+    //[SerializeField] private Material defaultMaterial;
 
     private Transform _selection;
     private SC_Inventory inventory;
@@ -24,10 +24,10 @@ public class SC_ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler
     
     public void OnDrag(PointerEventData eventData)
     {
-        // inventory.currentSlotID = transform.parent.parent.GetComponent<SC_Slot>().slotID;
+        inventory.currentSlotID = transform.parent.parent.GetComponent<SC_Slot>().slotID;
         transform.position = Input.mousePosition;
 
-        if(_selection != null)
+        /*if(_selection != null)
         {
             var selectionRenderer = _selection.GetComponent<Renderer>();
             selectionRenderer.material = defaultMaterial;
@@ -52,21 +52,22 @@ public class SC_ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler
 
                 _selection = selection;
             }
-        }
+        }*/
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         transform.localPosition = Vector3.zero;
 
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        //var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //RaycastHit hit;
 
-        if(_selection != null)
+        // todo: replace with outline shader
+        /*if(_selection != null)
         {
             var selectionRenderer = _selection.GetComponent<Renderer>();
             selectionRenderer.material = defaultMaterial;
             _selection = null;
-        }
+        }*/
     }
 }

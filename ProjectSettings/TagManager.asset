@@ -10,6 +10,8 @@ TagManager:
   - Rake
   - Slot
   - Counter
+  - Bush
+  - SortingCan
   layers:
   - Default
   - TransparentFX

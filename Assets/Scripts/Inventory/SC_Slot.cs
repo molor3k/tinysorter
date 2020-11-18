@@ -4,45 +4,65 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using TMPro;
+using static SC_ItemTypes;
 
 public class SC_Slot : MonoBehaviour
 {
-    private GameObject itemObject;
-    
     public Image itemIcon;
-
     public TMP_Text stackCounter;
-
+    public int slotID = -1;
     public int itemID;
-    public string itemType;
+    
+    public List<GameObject> itemObjects;
+    private ItemType itemType;
     private string itemName;
 
-    public int numberOfItems;      //Number of stack items
+    private GameObject playerObject;
+    private SC_EnvGrid environmentGrid;
+
+
+    void Start() {
+        playerObject = GameObject.Find("Player");
+        environmentGrid = GameObject.Find("Env").GetComponent<SC_EnvGrid>();
+    }
 
     public void AddItem(SC_Item item)
     {
         stackCounter = gameObject.transform.Find("Counter").GetChild(0).GetComponent<TMP_Text>();
         itemIcon = gameObject.transform.Find("ItemButton").GetChild(0).GetComponent<Image>();
 
-        if (numberOfItems == 0)
-        {
+        if (itemObjects.Count == 0) {
             itemID = item.ID;
             itemType = item.type;
-            itemName = item.description;
+            itemName = item.itemName;
 
-            itemObject = item.itemObject;
             itemIcon.sprite = item.icon;
             itemIcon.enabled = true;
-
-            item.isPickedUp = true;
-            item.gameObject.SetActive(false);
         }
-        numberOfItems++;
-        stackCounter.text = numberOfItems.ToString();
+
+        itemObjects.Add(item.gameObject);
+        item.PickItem();
+
+        stackCounter.text = itemObjects.Count.ToString();
     }
 
     public void DropItem()
     {
-        // TODO: instantiate near Player
+        GameObject itemObject = itemObjects[itemObjects.Count - 1];
+        itemObject.GetComponent<SC_EnvObject>().DropItemOnFreeCell();
+
+        itemObjects.RemoveAt(itemObjects.Count - 1);
+        stackCounter.text = itemObjects.Count.ToString();
+
+        if (itemObjects.Count == 0) {
+            itemID = -1;
+            itemType = ItemType.None;
+            itemName = "";
+
+            itemIcon.sprite = null;
+            itemIcon.enabled = false;
+
+            stackCounter.text = "";
+        }
     }
 }

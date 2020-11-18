@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3735004095057149477}
   - component: {fileID: 1538085971}
   - component: {fileID: 141201424}
+  - component: {fileID: 6301885216321349754}
   m_Layer: 0
   m_Name: P_TrashCan
   m_TagString: Can
@@ -138,3 +139,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.04, y: 0.04, z: 0.03}
   m_Center: {x: 0, y: 0.00014235495, z: 0.005151573}
+--- !u!114 &6301885216321349754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5043586824536603037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd89592d1e874d4d948859a38a2ae91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

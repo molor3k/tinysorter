@@ -29,6 +29,9 @@ public class SC_Movement : MonoBehaviour
     private float turnSmoothVelocity;               // Rotation smoothing
     private float targetAngle;
 
+    // Gravity
+    private float gravityAcceleration = 0.1f;
+
 
     void Start() {
         cameraController = gameObject.GetComponent<SC_CameraController>();
@@ -43,6 +46,8 @@ public class SC_Movement : MonoBehaviour
 
         rotateCharacter();
         moveCharacter();
+
+        applyGravity();
     }
 
     private void getStates() {
@@ -87,4 +92,44 @@ public class SC_Movement : MonoBehaviour
         cameraController.SetCharacterCamera(isRunning);
     }
 
+    private void applyGravity() {
+        bool isStanding = isOnGround();
+        bool isRising = isPreparedToRise();
+
+        if (isRising) {
+            controller.Move(Vector3.up.normalized * 15.0f * Time.deltaTime); 
+            gravityAcceleration = 0.1f;
+        } else {
+            if (!isStanding) {
+                gravityAcceleration *= 1.5f;
+                controller.Move(Vector3.down.normalized * gravityAcceleration * Time.deltaTime); 
+            } else {
+                gravityAcceleration = 0.1f;
+            }
+        }
+    }
+
+    private bool isPreparedToRise() {
+        Vector3 startPos = transform.position;
+        Vector3 direction = transform.forward + new Vector3(0, 0.15f, 0);
+
+        return getRayCollision(startPos, direction, 3.0f, 8);
+    }
+
+    private bool isOnGround() {
+        Vector3 startPos = transform.position + new Vector3(0, 1.0f, 0);
+        Vector3 direction = Vector3.down;
+
+        return getRayCollision(startPos, direction, 1.0f, 8);
+	}
+
+    private bool getRayCollision(Vector3 startPos, Vector3 direction, float rayLength, int layerNumber) {
+        int layerMask = 1 << layerNumber;
+
+        if (!Physics.Raycast(startPos, direction, out RaycastHit hit, rayLength, layerMask)) {
+			return false;
+		}
+
+        return true;
+    }
 }

@@ -94,14 +94,22 @@ public class SC_StateController : MonoBehaviour
     }
 
     public void onPickItem() {
-        if ((int)currentState < 5) {
-            currentState = States.PICK_ITEM;
-
+        if (currentState != States.OPEN_INVENTORY || currentState != States.DROP_ITEM) {
             StartCoroutine(
-                OnCompleteAnimation(
+                OnResetStateComplete(
                     (result => {
                         if (result) {
-                            onIdle();
+                            currentState = States.PICK_ITEM;
+
+                            StartCoroutine(
+                                OnCompleteAnimation(
+                                    (res => {
+                                        if (res) {
+                                            onIdle();
+                                        }
+                                    })
+                                )
+                            );
                         }
                     })
                 )
@@ -110,19 +118,17 @@ public class SC_StateController : MonoBehaviour
     }
 
     public void onDropItem() {
-        if (currentState != States.PICK_ITEM) {
-            currentState = States.DROP_ITEM;
+        currentState = States.DROP_ITEM;
 
-            StartCoroutine(
-                OnCompleteAnimation(
-                    (result => {
-                        if (result) {
-                            onOpenInventory();
-                        }
-                    })
-                )
-            );
-        }
+        StartCoroutine(
+            OnCompleteAnimation(
+                (result => {
+                    if (result) {
+                        onOpenInventory();
+                    }
+                })
+            )
+        );
     }
 
     public void onOpenInventory() {
@@ -135,6 +141,24 @@ public class SC_StateController : MonoBehaviour
                 })
             )
         );
+    }
+
+    public void onCloseInventory() {
+        StartCoroutine(
+            OnWait(0.5f, 
+                (result => {
+                    if (result) {
+                        onIdle();
+                    }
+                })
+            )
+        );
+    }
+
+    IEnumerator OnWait(float time, Action<bool> onComplete) {
+        yield return new WaitForSeconds(time);
+
+        onComplete(true);
     }
 
     IEnumerator OnResetStateComplete(Action<bool> onComplete) {
