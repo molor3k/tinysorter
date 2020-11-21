@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static SC_States;
 
 public class SC_InputController : MonoBehaviour
 {
@@ -28,15 +29,18 @@ public class SC_InputController : MonoBehaviour
         isRunning = Input.GetButton("ButtonRun") && isWalking;
 
         isOpeningInventory = Input.GetButtonDown("ButtonInventory");
-        isAction = Input.GetButton("ButtonAction");
+        isAction = Input.GetButtonDown("ButtonAction");
 
         inputToState();
     }
 
     void inputToState() {
-        SC_StateController.States currentState = stateController.getCurrentState();
-        bool isNotPickingOrDropping = (currentState != SC_StateController.States.PICK_ITEM) && (currentState != SC_StateController.States.DROP_ITEM);
-        bool isInInventory = (currentState == SC_StateController.States.OPEN_INVENTORY) || (currentState == SC_StateController.States.DROP_ITEM);
+        States currentState = stateController.getCurrentState();
+        bool isNotPickingOrDropping = (currentState != States.PICK_ITEM) && (currentState != States.DROP_ITEM);
+        bool isInInventory = (currentState == States.OPEN_INVENTORY) || (currentState == States.CLOSE_INVENTORY) || (currentState == States.RECYCLE) || (currentState == States.DROP_ITEM);
+        
+        bool isClosingRecycling = isAction && (currentState == States.RECYCLE);
+        bool isClosingInventory = isOpeningInventory && (currentState == States.OPEN_INVENTORY);
 
         if (isNotPickingOrDropping) {
             if (isWalking) {
@@ -49,7 +53,7 @@ public class SC_InputController : MonoBehaviour
         }
         
         if (isInInventory) {
-            if (isOpeningInventory) {
+            if (isClosingInventory || isClosingRecycling) {
                 stateController.onCloseInventory();
             }
         } else {

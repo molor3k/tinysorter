@@ -37,14 +37,14 @@ public class SC_CameraController : MonoBehaviour
         var easingType = Ease.Spring;
 
         ChangeFOV(20.0f, easingType, .05f);
-        ChangePosition(CameraAxis.z, -57.0f, Ease.EaseInBack, .02f);
+        ChangePosition(CameraAxis.z, 57.0f, Ease.EaseInBack, .02f);
     }
 
     public void CloseInventory() {
         var easingType = Ease.Spring;
 
         ChangeFOV(defaultCameraFOV, easingType, .05f);
-        ChangePosition(CameraAxis.z, -27.2f, Ease.EaseInBack, .02f);
+        ChangePosition(CameraAxis.z, 27.5f, Ease.EaseInBack, .02f);
     }
 
     private void ChangeFOV(float targetValue, Ease easingType, float easingSpeed) {

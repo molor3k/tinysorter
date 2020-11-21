@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using static EasingFunction;
+using static SC_States;
 
 public class SC_Inventory : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class SC_Inventory : MonoBehaviour
     public List<SC_Slot> slotList;
 
     public int currentSlotID = -1;
+    // TODO: remove it to other script
+    public int pointsForSorting = 0;
     
     private bool inventoryEnabled;
     private int slotsNumber = 7;
@@ -45,7 +48,6 @@ public class SC_Inventory : MonoBehaviour
         {
             slotList.Add(slotHolder.transform.GetChild(i).GetComponent<SC_Slot>());
         }
-
     }
 
     public void AddItemToFreeSlot(SC_Item item) {
@@ -76,12 +78,16 @@ public class SC_Inventory : MonoBehaviour
         freeSlot.AddItem(item);
     }
 
-    public void DropSelectedItem() {
+    public void DropSelectedItem(bool needToDrop) {
         SC_Slot currentSlot = slotList.ElementAt(currentSlotID);
-        currentSlot.DropItem();
+        currentSlot.DropItem(needToDrop);
 
         stateController.onDropItem();
         currentSlotID = -1;
+    }
+
+    public SC_Slot GetSelectedItem() {
+        return slotList.ElementAt(currentSlotID);
     }
 
     IEnumerator InventoryAnimation(bool isOpen) {
@@ -162,10 +168,13 @@ public class SC_Inventory : MonoBehaviour
     // Open/close inventory
     private void CheckInventory()
     {
-        //bool isOpening = (stateController.getCurrentState() == SC_StateController.States.OPEN_INVENTORY) && !inventoryEnabled;
-        //bool isClosing = (stateController.getCurrentState() != SC_StateController.States.OPEN_INVENTORY) && inventoryEnabled;
-        
-        if (inputController.isOpeningInventory) {
+        States currentState = stateController.getCurrentState();
+        bool isInInventory = (currentState == States.OPEN_INVENTORY) || (currentState == States.RECYCLE);
+
+        bool isOpening = isInInventory && !inventoryEnabled;
+        bool isClosing = (stateController.getCurrentState() == States.CLOSE_INVENTORY) && inventoryEnabled;
+
+        if (isOpening || isClosing) {
             inventoryEnabled = !inventoryEnabled;
             StartCoroutine(InventoryAnimation(inventoryEnabled));
         }

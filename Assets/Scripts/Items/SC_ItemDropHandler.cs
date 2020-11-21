@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+// OBSOLETE CLASS!!!!
 public class SC_ItemDropHandler : MonoBehaviour, IDropHandler
 {
-    public int pointsForSorting;
+    public int pointsForSorting = 0;
 
     private SC_Inventory inventory;
     // private SC_Slot slot;
@@ -18,14 +19,15 @@ public class SC_ItemDropHandler : MonoBehaviour, IDropHandler
 
     private void AllSet()
     {
-        inventory = GameObject.Find("Player").GetComponent<SC_Inventory>();
-        // slot = GameObject.Find("Slot").GetComponent<SC_Slot>();
-        interaction = GameObject.FindGameObjectWithTag("Player").GetComponent<SC_Interactions>();
-        pointsForSorting = 0;
+        GameObject player = GameObject.Find("Player");
+
+        inventory = player.GetComponent<SC_Inventory>();
+        interaction = player.GetComponent<SC_Interactions>();
     }
 
     public void OnDrop(PointerEventData eventData)
     {
+        /*
         RectTransform invPanel = transform as RectTransform;
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -39,51 +41,14 @@ public class SC_ItemDropHandler : MonoBehaviour, IDropHandler
         {
             var selection = hit.transform;
 
-            if(selection.CompareTag("Can"))
-            {
-                // inventory.DropSelectedItem();
-
-                if(/*slot.itemType == "Organic" && is dropped to yellow can && */interaction.startRecycle == true)
+            if(selection.CompareTag("SortingCan")) {
+                if(interaction.canRecycle) //todo: slot.itemType == can.sortingType
                 {
                     pointsForSorting++;
-                    Debug.Log("Organic");
-
-                } else
-                {
-                    pointsForSorting--;
-                }
-
-                if(/*slot.itemType == "Metal" && is dropped to green can && */interaction.startRecycle == true)
-                {
-                    pointsForSorting++;
-                    Debug.Log("Metal");
-
-                } else
-                {
-                    pointsForSorting--;
-                }
-
-                if(/*slot.itemType == "Paper" && is dropped to blue can */interaction.startRecycle == true)
-                {
-                    pointsForSorting++;
-                    Debug.Log("Paper");
-
-                } else
-                {
-                    pointsForSorting--;
-                }
-
-                if(/*slot.itemType == "Plastic" && is dropped to white can */interaction.startRecycle == true)
-                {
-                    pointsForSorting++;
-                    Debug.Log("Plastic");
-
-                } else
-                {
+                } else {
                     pointsForSorting--;
                 }
             }
-        }
+        }*/
     }
-    
 }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4273056543196616794}
   m_Layer: 0
   m_Name: P_SortingCan
-  m_TagString: Can
+  m_TagString: SortingCan
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,6 +104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingType: 0
+  highlightMaterial: {fileID: 2100000, guid: ab531684a39426e4294347db91c113c8, type: 2}
 --- !u!1 &3356382648693308518
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,13 +130,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3356382648693308518}
-  m_LocalRotation: {x: -0.70681334, y: 0.020371916, z: 0.020371946, w: 0.70681316}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.17, y: 2.4187834, z: -0.02}
   m_LocalScale: {x: 250.14178, y: 250.14178, z: 250.14178}
   m_Children: []
   m_Father: {fileID: 2491228147372616169}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 3.302}
+  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
 --- !u!33 &8006953528246993938
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -163,6 +164,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: eedfeca6acee2e1438fcae5cbd50bf51, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

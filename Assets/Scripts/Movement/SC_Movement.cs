@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static SC_States;
 
 public class SC_Movement : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class SC_Movement : MonoBehaviour
     private SC_StateController stateController;
 
     // States
-    private SC_StateController.States currentState;
+    private States currentState;
     private bool isWalking;
     private bool isRunning;
     private bool isOpeningInventory;
@@ -27,7 +28,7 @@ public class SC_Movement : MonoBehaviour
     // Rotation
     public float turnSmoothTime = 0.1f;             // Rotation smoothing time
     private float turnSmoothVelocity;               // Rotation smoothing
-    private float targetAngle;
+    private float targetAngle = 180.0f;
 
     // Gravity
     private float gravityAcceleration = 0.1f;
@@ -53,14 +54,14 @@ public class SC_Movement : MonoBehaviour
     private void getStates() {
         currentState = stateController.getCurrentState();
 
-        isWalking = currentState == SC_StateController.States.WALK;
-        isRunning = currentState == SC_StateController.States.RUN;
-        isOpeningInventory = currentState == SC_StateController.States.OPEN_INVENTORY;
+        isWalking = currentState == States.WALK;
+        isRunning = currentState == States.RUN;
+        isOpeningInventory = (currentState == States.OPEN_INVENTORY) || (currentState == States.RECYCLE);
     }
 
     private void rotateCharacter() {
         if (isOpeningInventory) {
-            targetAngle = 180.0f;
+            targetAngle = 0.0f;
         } else {
             if (isWalking || isRunning) {
                 targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + cam.eulerAngles.y; 

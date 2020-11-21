@@ -2,21 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static SC_States;
 
 public class SC_StateController : MonoBehaviour
 {
     private SC_AnimationController animationController;
-    public enum States {
-        STATE_RESET = 0,
-        IDLE,
-        WALK,
-        RUN,
-        RUN_END,
-        PICK_ITEM,
-        DROP_ITEM,
-        OPEN_INVENTORY
-    }
-
+    
+    public States playingState = States.IDLE;
     public States previousState = States.IDLE;
     public States currentState = States.IDLE;
 
@@ -26,23 +18,32 @@ public class SC_StateController : MonoBehaviour
     }
 
     void Update() {
-        if (previousState != currentState) {
+        if (playingState != currentState) {
             animationController.SetState((int)currentState);
         }
 
-        previousState = currentState;
+        playingState = currentState;
+    }
+
+    public States getPreviousState() {
+        return previousState;
     }
 
     public States getCurrentState() {
         return currentState;
     }
 
+    public void setCurrentState(States newState) {
+        previousState = currentState;
+        currentState = newState;
+    }
+
     public void onResetState() {
-        currentState = States.STATE_RESET;
+        setCurrentState(States.STATE_RESET);
     }
 
     public void onIdle() {
-        currentState = States.IDLE;
+        setCurrentState(States.IDLE);
     }
 
     public void onWalk() {
@@ -51,13 +52,13 @@ public class SC_StateController : MonoBehaviour
                 OnResetStateComplete(
                     (result => {
                         if (result) {
-                            currentState = States.WALK;
+                            setCurrentState(States.WALK);
                         }
                     })
                 )
             );
         } else if (currentState == States.RUN || currentState == States.RUN_END) {
-            currentState = States.WALK;
+            setCurrentState(States.WALK);
         }
     }
 
@@ -67,19 +68,19 @@ public class SC_StateController : MonoBehaviour
                 OnResetStateComplete(
                     (result => {
                         if (result) {
-                            currentState = States.RUN;
+                            setCurrentState(States.RUN);
                         }
                     })
                 )
             );
         } else if (currentState == States.WALK) {
-            currentState = States.RUN;
+            setCurrentState(States.RUN);
         }
     }
 
     public void onRunEnd() {
         if (currentState == States.RUN) {
-            currentState = States.RUN_END;
+            setCurrentState(States.RUN_END);
 
             StartCoroutine(
                 OnCompleteAnimation(
@@ -99,7 +100,7 @@ public class SC_StateController : MonoBehaviour
                 OnResetStateComplete(
                     (result => {
                         if (result) {
-                            currentState = States.PICK_ITEM;
+                            setCurrentState(States.PICK_ITEM);
 
                             StartCoroutine(
                                 OnCompleteAnimation(
@@ -118,13 +119,17 @@ public class SC_StateController : MonoBehaviour
     }
 
     public void onDropItem() {
-        currentState = States.DROP_ITEM;
+        setCurrentState(States.DROP_ITEM);
 
         StartCoroutine(
             OnCompleteAnimation(
                 (result => {
                     if (result) {
-                        onOpenInventory();
+                        if (previousState == States.OPEN_INVENTORY) {
+                            setCurrentState(States.OPEN_INVENTORY);
+                        } else if (previousState == States.RECYCLE) {
+                            setCurrentState(States.RECYCLE);
+                        }
                     }
                 })
             )
@@ -132,18 +137,36 @@ public class SC_StateController : MonoBehaviour
     }
 
     public void onOpenInventory() {
-        StartCoroutine(
-            OnResetStateComplete(
-                (result => {
-                    if (result) {
-                        currentState = States.OPEN_INVENTORY;
-                    }
-                })
-            )
-        );
+        if (currentState != States.RECYCLE && currentState != States.CLOSE_INVENTORY && currentState != States.DROP_ITEM) {
+            StartCoroutine(
+                OnResetStateComplete(
+                    (result => {
+                        if (result) {
+                            setCurrentState(States.OPEN_INVENTORY);
+                        }
+                    })
+                )
+            );
+        }
+    }
+
+    public void onRecycle() {
+        if (currentState != States.OPEN_INVENTORY && currentState != States.CLOSE_INVENTORY && currentState != States.DROP_ITEM) {
+            StartCoroutine(
+                OnResetStateComplete(
+                    (result => {
+                        if (result) {
+                            setCurrentState(States.RECYCLE);
+                        }
+                    })
+                )
+            );
+        }
     }
 
     public void onCloseInventory() {
+        setCurrentState(States.CLOSE_INVENTORY);
+        
         StartCoroutine(
             OnWait(0.5f, 
                 (result => {

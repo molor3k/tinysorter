@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using static SC_States;
 
 public class SC_Interactions : MonoBehaviour
 {
     public GameObject actionPanel;
     public GameObject itemNamePanel;
+    public GameObject recycleTypePanel;
     public Camera cam;
 
     private SC_Inventory inventory;
@@ -16,7 +18,8 @@ public class SC_Interactions : MonoBehaviour
     private SC_Item mItemToPickup = null;
     private GameObject currentItem = null;
 
-    public bool startRecycle;
+    public bool canRecycle;
+    private bool isInInventory;
 
 
     void Start() {
@@ -25,14 +28,19 @@ public class SC_Interactions : MonoBehaviour
 
     void Update()
     {
-        if (stateController.getCurrentState() != SC_StateController.States.OPEN_INVENTORY) {
+        States currentState = stateController.getCurrentState();
+        isInInventory = (currentState == States.OPEN_INVENTORY) || (currentState == States.CLOSE_INVENTORY) || (currentState == States.RECYCLE) || (currentState == States.DROP_ITEM);
+        
+        if (!isInInventory) {
             CheckInteraction();
             MovePanel(actionPanel, new Vector3(0.0f, 30.0f, 0.0f));
             MovePanel(itemNamePanel, new Vector3(0.0f, 100.0f, 0.0f));
+            ClosePanel(recycleTypePanel);
         } else {
-            currentItem = null;
+            //currentItem = null;
             ClosePanel(actionPanel);
             ClosePanel(itemNamePanel);
+            MovePanel(recycleTypePanel, new Vector3(0.0f, -50.0f, 0.0f));
         }
     }
 
@@ -61,8 +69,8 @@ public class SC_Interactions : MonoBehaviour
 
                 case "SortingCan":
                     OpenPanel(actionPanel, "");
-                    OpenPanel(itemNamePanel, other.GetComponent<SC_SortingCan>().sortingType.ToString());
-                    //startRecycle = true;
+                    OpenPanel(itemNamePanel, "recycle");
+                    canRecycle = true;
                 break;
 
                 case "Can":
@@ -71,8 +79,8 @@ public class SC_Interactions : MonoBehaviour
                 break;
 
                 case "Bush":
-                    if (stateController.getCurrentState() ==  SC_StateController.States.RUN) {
-                        other.GetComponent<ParticleSystem>().Emit(15);
+                    if (stateController.getCurrentState() ==  States.RUN) {
+                        other.transform.GetChild(0).Find("Particles").GetComponent<ParticleSystem>().Emit(15);
                     }
                 break;
             }
@@ -100,13 +108,12 @@ public class SC_Interactions : MonoBehaviour
                 case "SortingCan":
                     ClosePanel(actionPanel);
                     ClosePanel(itemNamePanel);
-                    startRecycle = false;
+                    canRecycle = false;
                 break;
 
                 case "Can":
                     ClosePanel(actionPanel);
                     ClosePanel(itemNamePanel);
-                    startRecycle = false;
                 break;
             }
         }
@@ -124,7 +131,9 @@ public class SC_Interactions : MonoBehaviour
 
                 mItemToPickup = null;
                 currentItem = null;
-            } 
+            } else if (canRecycle) {
+                stateController.onRecycle();
+            }
         }
     }
 
@@ -139,7 +148,7 @@ public class SC_Interactions : MonoBehaviour
         }
     }
 
-    private void OpenPanel(GameObject panel, string text) {
+    public void OpenPanel(GameObject panel, string text) {
         panel.SetActive(true);
 
         if (text != "") {
@@ -148,7 +157,7 @@ public class SC_Interactions : MonoBehaviour
         }
     }
 
-    private void ClosePanel(GameObject panel) {
+    public void ClosePanel(GameObject panel) {
         panel.SetActive(false);
     }
 }

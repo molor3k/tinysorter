@@ -26,6 +26,10 @@ public class SC_Slot : MonoBehaviour
         environmentGrid = GameObject.Find("Env").GetComponent<SC_EnvGrid>();
     }
 
+    public ItemType GetItemType() {
+        return itemType;
+    }
+
     public void AddItem(SC_Item item)
     {
         stackCounter = gameObject.transform.Find("Counter").GetChild(0).GetComponent<TMP_Text>();
@@ -46,10 +50,15 @@ public class SC_Slot : MonoBehaviour
         stackCounter.text = itemObjects.Count.ToString();
     }
 
-    public void DropItem()
+    public void DropItem(bool needToDrop)
     {
         GameObject itemObject = itemObjects[itemObjects.Count - 1];
-        itemObject.GetComponent<SC_EnvObject>().DropItemOnFreeCell();
+        if (needToDrop) {
+            itemObject.GetComponent<SC_EnvObject>().DropItemOnFreeCell();
+        } else {
+            // TODO: recycle all "destroyed" assets for further use, instead of Instantiate->Destroy cycle
+            Destroy(itemObject);
+        }
 
         itemObjects.RemoveAt(itemObjects.Count - 1);
         stackCounter.text = itemObjects.Count.ToString();

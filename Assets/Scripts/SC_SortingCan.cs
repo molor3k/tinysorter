@@ -5,16 +5,31 @@ using static SC_ItemTypes;
 
 public class SC_SortingCan : MonoBehaviour {
     public ItemType sortingType;
+    public Material highlightMaterial;
 
     private Mesh mesh;
+    private Renderer render;
     private Vector2[] meshUV;
 
 
     void Start() {
         mesh = FindMesh();
         meshUV = GetUV(mesh);
+        render = transform.GetChild(0).GetComponent<Renderer>();
 
         ChangeColor();
+    }
+
+    public void OutlineCan(bool isSelected) {
+        Material[] materialsList = render.materials;
+
+        if (isSelected) {
+            materialsList[1] = highlightMaterial;
+        } else {
+            materialsList[1] = null;
+        }
+        
+        render.materials = materialsList;
     }
 
     void ChangeColor() {
