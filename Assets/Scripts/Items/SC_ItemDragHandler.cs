@@ -102,10 +102,10 @@ public class SC_ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler
 
             // Check if player sorted trash correctly
             if (sortingCan.sortingType == inventorySlot.GetItemType()) {
-                inventory.pointsForSorting++;
+                inventory.pointsForSorting += 10;
                 Debug.Log("Correct type, points: " + inventory.pointsForSorting);
             } else {
-                inventory.pointsForSorting--;
+                inventory.pointsForSorting -= 10;
                 Debug.Log("Incorrect type, points: " + inventory.pointsForSorting);
             }
             

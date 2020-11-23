@@ -20,7 +20,6 @@ GameObject:
   - component: {fileID: 2209736580297717556}
   - component: {fileID: 423759107815591893}
   - component: {fileID: 4815173166346890971}
-  - component: {fileID: 3351619611941104549}
   - component: {fileID: 807695808}
   m_Layer: 0
   m_Name: Player
@@ -54,10 +53,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 2
-  m_Height: 8.386841
+  m_Radius: 1.1809082
+  m_Height: 6.1865387
   m_Direction: 1
-  m_Center: {x: 0, y: 4.3286076, z: 0}
+  m_Center: {x: 0.37, y: 3.2284565, z: -0.049999952}
 --- !u!54 &1352196876768162227
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -123,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0aabd67c6997c34b9f07ad0e0f15117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playingState: 1
   previousState: 0
   currentState: 0
 --- !u!114 &3656820333847734279
@@ -140,6 +140,7 @@ MonoBehaviour:
   isWalking: 0
   isRunning: 0
   isOpeningInventory: 0
+  isAction: 0
 --- !u!114 &7788709296854752597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,11 +197,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf2eb28e78d9b2a42a3f39b2deeddfa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messagePanel: {fileID: 0}
-  hands: 1
-  wastePicker: 0
-  rake: 0
-  startRecycle: 0
+  actionPanel: {fileID: 0}
+  itemNamePanel: {fileID: 0}
+  recycleTypePanel: {fileID: 0}
+  cam: {fileID: 0}
+  canRecycle: 0
 --- !u!114 &4815173166346890971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,20 +216,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: {fileID: 0}
   slotHolder: {fileID: 0}
-  vCam: {fileID: 807695808}
+  cameraController: {fileID: 0}
   slotList: []
---- !u!114 &3351619611941104549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1352196876768162255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e619dd3d3f71074587e51facd010cd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  currentSlotID: -1
+  pointsForSorting: 0
 --- !u!114 &807695808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,17 +315,17 @@ PrefabInstance:
     - target: {fileID: -8676058369089860348, guid: f4aed5c9d0d70574fb244493f1385c97,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 100
+      value: 75.56223
       objectReference: {fileID: 0}
     - target: {fileID: -8676058369089860348, guid: f4aed5c9d0d70574fb244493f1385c97,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 100
+      value: 75.56223
       objectReference: {fileID: 0}
     - target: {fileID: -8676058369089860348, guid: f4aed5c9d0d70574fb244493f1385c97,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 100
+      value: 75.56223
       objectReference: {fileID: 0}
     - target: {fileID: -2843909369972686622, guid: f4aed5c9d0d70574fb244493f1385c97,
         type: 3}
@@ -344,12 +335,12 @@ PrefabInstance:
     - target: {fileID: -2843909369972686622, guid: f4aed5c9d0d70574fb244493f1385c97,
         type: 3}
       propertyPath: m_ReceiveShadows
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -2843909369972686622, guid: f4aed5c9d0d70574fb244493f1385c97,
         type: 3}
       propertyPath: m_CastShadows
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -2843909369972686622, guid: f4aed5c9d0d70574fb244493f1385c97,
         type: 3}
