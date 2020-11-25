@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[ExecuteInEditMode]
 public class SC_RandomSpawnGarbage : MonoBehaviour
 {
-    public GameObject spawnGameobject;
+    public List<GameObject> spawnGameobject;
     private GameObject AIObject;
     private SC_EnvGrid environmentGrid;
 
@@ -18,10 +17,6 @@ public class SC_RandomSpawnGarbage : MonoBehaviour
     }
 
     void Update() {
-        if (Application.isEditor) {
-            StartCoroutine(AddItemToGrid());
-        }
-
         if(timeToSpawnGameobject >= 500)
         {
             SpawnItemOnFreeCell();
@@ -32,19 +27,14 @@ public class SC_RandomSpawnGarbage : MonoBehaviour
     }
 
     private void SpawnItemOnFreeCell() {
+        GameObject randomItem = spawnGameobject[Random.Range(0, (spawnGameobject.Count - 1))];
         Vector3 AIPos = AIObject.transform.position;
         Vector2 AIPosToGrid = environmentGrid.worldToGrid(AIPos);
         GridCell firstFreeCell = environmentGrid.findFirstFreeCell(AIPosToGrid);
         Vector3 firstFreeCellWorldPos = environmentGrid.gridToWorld(firstFreeCell.getPosition());
     
         Vector3 spawnGameobjectPosition = new Vector3(firstFreeCellWorldPos.x, AIPos.y + .5f, firstFreeCellWorldPos.z);
-        Instantiate(spawnGameobject, spawnGameobjectPosition, Quaternion.identity);
-        StartCoroutine(AddItemToGrid());
-    }
-
-    IEnumerator AddItemToGrid() {
-        yield return new WaitForSeconds(0.5f);
-
-        environmentGrid.cellAddObject(spawnGameobject);
+        Instantiate(randomItem, spawnGameobjectPosition, Quaternion.identity);
+        environmentGrid.cellAddObject(randomItem);
     }
 }

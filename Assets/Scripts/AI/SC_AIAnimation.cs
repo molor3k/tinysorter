@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static SC_States;
 
 public class SC_AIAnimation : MonoBehaviour {
 
@@ -17,6 +18,6 @@ public class SC_AIAnimation : MonoBehaviour {
     }
 
     private void SetAnimation() {
-        anim.SetInteger("currentState", (int)SC_States.States.WALK);
+        anim.SetInteger("currentState", (int)States.WALK);
     }
 }
