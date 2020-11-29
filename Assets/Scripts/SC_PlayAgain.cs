@@ -4,11 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SC_PlayAgain : MonoBehaviour
-{
-    void Start() 
-    {
-        this.gameObject.GetComponent<Button>().onClick.AddListener(RestartGame);
+public class SC_PlayAgain : MonoBehaviour {
+    
+    void Start() {
+        gameObject.GetComponent<Button>().onClick.AddListener(RestartGame);
     }
 
     public void RestartGame() {

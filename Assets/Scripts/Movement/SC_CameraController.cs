@@ -6,8 +6,8 @@ using UnityEngine;
 using Cinemachine;
 using static EasingFunction;
 
-public class SC_CameraController : MonoBehaviour
-{
+public class SC_CameraController : MonoBehaviour {
+    
     public CinemachineVirtualCameraBase vCamBase;
     private CinemachineVirtualCamera vCam;
 

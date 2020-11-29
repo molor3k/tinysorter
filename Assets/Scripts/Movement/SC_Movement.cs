@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using static SC_States;
 
-public class SC_Movement : MonoBehaviour
-{
+public class SC_Movement : MonoBehaviour {
+    
     public CharacterController controller;
     public Transform cam;
+    public GameObject dustParticles;
 
     private SC_CameraController cameraController;
     private SC_InputController inputController;
@@ -38,6 +39,8 @@ public class SC_Movement : MonoBehaviour
         cameraController = gameObject.GetComponent<SC_CameraController>();
         inputController = gameObject.GetComponent<SC_InputController>();
         stateController = gameObject.GetComponent<SC_StateController>();
+
+        dustParticles.GetComponent<ParticleSystem>().Stop();
     }
 
     void Update() {
@@ -49,6 +52,8 @@ public class SC_Movement : MonoBehaviour
         moveCharacter();
 
         applyGravity();
+
+        applyDustParticlesEffect();
     }
 
     private void getStates() {
@@ -132,5 +137,13 @@ public class SC_Movement : MonoBehaviour
 		}
 
         return true;
+    }
+
+    private void applyDustParticlesEffect() {
+        if(isRunning) {
+            dustParticles.GetComponent<ParticleSystem>().Play();
+        } else {
+            dustParticles.GetComponent<ParticleSystem>().Stop();
+        }
     }
 }

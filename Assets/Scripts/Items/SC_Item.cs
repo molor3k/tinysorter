@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using static SC_ItemTypes;
 
-public class SC_Item : MonoBehaviour
-{
+public class SC_Item : MonoBehaviour {
+    
     public int ID;
     public string itemName;
 
@@ -15,8 +15,8 @@ public class SC_Item : MonoBehaviour
 
     private SC_Inventory inventory;
 
-    void Start()
-    {
+
+    void Start() {
         inventory = GameObject.Find("Player").GetComponent<SC_Inventory>();
     }
 

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class SC_EnvGrid : MonoBehaviour
-{
+public class SC_EnvGrid : MonoBehaviour {
+
     public bool isDrawGizmos = false;
 
     public Transform startPoint;
@@ -18,8 +18,7 @@ public class SC_EnvGrid : MonoBehaviour
     private List<GridCell> cells;
 
 
-    void Update()
-    {
+    void Update() {
         if (Application.isEditor) {
             startPosition = startPoint.position;
 
@@ -95,8 +94,7 @@ public class SC_EnvGrid : MonoBehaviour
         return new Vector3(x, startPosition.y, z);
     }
 
-    void OnDrawGizmos()
-    {
+    void OnDrawGizmos() {
         if (isDrawGizmos) {
             foreach(GridCell cell in cells) {
                 Vector2 gridPos = cell.getPosition();

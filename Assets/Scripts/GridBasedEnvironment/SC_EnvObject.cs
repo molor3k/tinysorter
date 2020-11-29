@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEditor;
 
 [ExecuteInEditMode]
-public class SC_EnvObject : MonoBehaviour
-{
+public class SC_EnvObject : MonoBehaviour {
+    
     private GameObject playerObject;
     private SC_EnvGrid environmentGrid;
 

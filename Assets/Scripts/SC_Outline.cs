@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SC_Outline : MonoBehaviour
-{
+public class SC_Outline : MonoBehaviour {
+    
     // Toggle between Diffuse and Transparent/Diffuse shaders
     // when space key is pressed
 
@@ -12,22 +12,17 @@ public class SC_Outline : MonoBehaviour
     Renderer rend;
 
 
-    void Start()
-    {
+    void Start() {
         rend = GetComponent<Renderer> ();
         shader1 = Shader.Find("Diffuse");
         shader2 = Shader.Find("Transparent/Diffuse");
     }
 
-    void Update()
-    {
+    void Update() {
         
-            if (rend.material.shader == shader1)
-            {
+            if (rend.material.shader == shader1) {
                 rend.material.shader = shader2;
-            }
-            else
-            {
+            } else {
                 rend.material.shader = shader1;
             }
         

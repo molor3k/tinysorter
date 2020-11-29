@@ -7,7 +7,7 @@ public class SC_SlotButton : MonoBehaviour
     int n;
 
     
-    public void OnButtonPress(){
+    public void OnButtonPress() {
         n++;
         Debug.Log("Button clicked " + n + " times.");
     }

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using static SC_States;
 
-public class SC_InputController : MonoBehaviour
-{
+public class SC_InputController : MonoBehaviour {
+    
     public bool isWalking = false;
     public bool isRunning = false;
     public bool isOpeningInventory = false;

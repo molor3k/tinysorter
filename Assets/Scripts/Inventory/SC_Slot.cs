@@ -6,8 +6,8 @@ using UnityEngine.UI;
 using TMPro;
 using static SC_ItemTypes;
 
-public class SC_Slot : MonoBehaviour
-{
+public class SC_Slot : MonoBehaviour {
+
     public Image itemIcon;
     public TMP_Text stackCounter;
     public int slotID = -1;
@@ -30,8 +30,7 @@ public class SC_Slot : MonoBehaviour
         return itemType;
     }
 
-    public void AddItem(SC_Item item)
-    {
+    public void AddItem(SC_Item item) {
         stackCounter = gameObject.transform.Find("Counter").GetChild(0).GetComponent<TMP_Text>();
         itemIcon = gameObject.transform.Find("ItemButton").GetChild(0).GetComponent<Image>();
 
@@ -50,8 +49,7 @@ public class SC_Slot : MonoBehaviour
         stackCounter.text = itemObjects.Count.ToString();
     }
 
-    public void DropItem(bool needToDrop)
-    {
+    public void DropItem(bool needToDrop) {
         GameObject itemObject = itemObjects[itemObjects.Count - 1];
         if (needToDrop) {
             itemObject.GetComponent<SC_EnvObject>().DropItemOnFreeCell();

@@ -5,20 +5,15 @@ using UnityEngine.EventSystems;
 
 using static SC_States;
 
-public class SC_ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler
-{
+public class SC_ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler {
+
     private Transform selectedSortingCan;
     private SC_Inventory inventory;
     private SC_Interactions interactionController;
     private SC_StateController stateController;
 
-    void Start()
-    {
-        AllSet();
-    }
 
-    private void AllSet()
-    {
+    void Start() {
         GameObject player = GameObject.Find("Player");
 
         inventory = player.GetComponent<SC_Inventory>();

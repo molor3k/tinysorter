@@ -4,8 +4,8 @@ using UnityEngine;
 using TMPro;
 using static SC_States;
 
-public class SC_Interactions : MonoBehaviour
-{
+public class SC_Interactions : MonoBehaviour {
+
     public GameObject actionPanel;
     public GameObject itemNamePanel;
     public GameObject recycleTypePanel;
@@ -23,11 +23,12 @@ public class SC_Interactions : MonoBehaviour
 
 
     void Start() {
-        AllSet();
+        inventory = gameObject.GetComponent<SC_Inventory>();
+        inputController = gameObject.GetComponent<SC_InputController>();
+        stateController = gameObject.GetComponent<SC_StateController>();
     }
 
-    void Update()
-    {
+    void Update() {
         States currentState = stateController.getCurrentState();
         isInInventory = (currentState == States.OPEN_INVENTORY) || (currentState == States.CLOSE_INVENTORY) || (currentState == States.RECYCLE) || (currentState == States.DROP_ITEM);
         
@@ -44,15 +45,7 @@ public class SC_Interactions : MonoBehaviour
         }
     }
 
-    private void AllSet()
-    {
-        inventory = gameObject.GetComponent<SC_Inventory>();
-        inputController = gameObject.GetComponent<SC_InputController>();
-        stateController = gameObject.GetComponent<SC_StateController>();
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
+    private void OnTriggerStay(Collider other) {
         if (currentItem == null) {
             currentItem = other.gameObject;
 
@@ -87,13 +80,11 @@ public class SC_Interactions : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
+    private void OnTriggerExit(Collider other) {
         if (currentItem == other.gameObject) {
             currentItem = null;
 
-            switch(other.tag)
-            {
+            switch(other.tag) {
                 case "Item":
                     SC_Item item = other.GetComponent<SC_Item>();
 
@@ -119,8 +110,7 @@ public class SC_Interactions : MonoBehaviour
         }
     }
 
-    private void CheckInteraction() 
-    {
+    private void CheckInteraction()  {
         if (inputController.isAction) {
             if (mItemToPickup != null && mItemToPickup.isPickedUp != true) {
                 inventory.AddItemToFreeSlot(mItemToPickup);

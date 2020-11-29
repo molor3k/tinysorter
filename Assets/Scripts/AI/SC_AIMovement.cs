@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SC_AIMovement : MonoBehaviour
-{
+public class SC_AIMovement : MonoBehaviour {
+
     public CharacterController controller;
 
     // Movement 
@@ -19,18 +19,17 @@ public class SC_AIMovement : MonoBehaviour
 
     // Gravity
     private float gravityAcceleration = 0.1f;
-    private int i = 0;
+    private int count = 0;
 
-    void Start()
-    {
+
+    void Start() {
         inputDirection = getInputDirection();
     }
 
     void Update() {
-        if(i >= 300)
-        {
+        if(count > 300) {
             inputDirection = getInputDirection();
-            i = 0;
+            count = 0;
         }
 
         rotateAI();
@@ -38,7 +37,7 @@ public class SC_AIMovement : MonoBehaviour
 
         applyGravity();
 
-        i++;
+        count++;
     }
 
     private void rotateAI() {

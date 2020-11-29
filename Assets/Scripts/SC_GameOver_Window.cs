@@ -3,27 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class SC_GameOver_Window : MonoBehaviour
-{
-    public TMP_Text scoreText;
+public class SC_GameOver_Window : MonoBehaviour {
+
     public SC_Timer timer;
     
+    private TMP_Text scoreText;
     private SC_Inventory inventory;
 
-    void Start()
-    {
+
+    void Start() {
+        scoreText = gameObject.GetComponent<TMP_Text>();
         inventory = GameObject.Find("Player").GetComponent<SC_Inventory>();
     }
 
-    void Update()
-    {
+    void Update() {
         showgameOverWindow();
     }
 
-    private void showgameOverWindow()
-    {
-        if(timer.time == 0)
-        {
+    private void showgameOverWindow() {
+        if(timer.time == 0) {
             scoreText.text = "Your score is: " + inventory.pointsForSorting;
         }
     }

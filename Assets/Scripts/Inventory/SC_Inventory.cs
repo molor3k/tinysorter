@@ -9,24 +9,24 @@ using UnityEngine.UI;
 using static EasingFunction;
 using static SC_States;
 
-public class SC_Inventory : MonoBehaviour
-{
+public class SC_Inventory : MonoBehaviour {
+
     public GameObject inventory;
     public GameObject slotHolder;
 
     public SC_CameraController cameraController;
-    public List<SC_Slot> slotList;
 
     public int currentSlotID = -1;
     // TODO: remove it to other script
     public int pointsForSorting = 0;
     
+    private List<SC_Slot> slotList;
+    private SC_InputController inputController;
+    private SC_StateController stateController;
+
     private bool inventoryEnabled;
     private int slotsNumber = 7;
     private int itemsNumberMax = 9;
-
-    private SC_InputController inputController;
-    private SC_StateController stateController;
 
 
     void Start() {
@@ -44,8 +44,7 @@ public class SC_Inventory : MonoBehaviour
     private void FillList() {
         slotList = new List<SC_Slot>();
 
-        for(int i = 0; i < slotsNumber; i++)
-        {
+        for(int i = 0; i < slotsNumber; i++) {
             slotList.Add(slotHolder.transform.GetChild(i).GetComponent<SC_Slot>());
         }
     }
@@ -54,8 +53,7 @@ public class SC_Inventory : MonoBehaviour
         int freeSlotID = 0;
         int currentSlotID = 0;
 
-        foreach (var slot in slotList)
-        {
+        foreach (var slot in slotList) {
             if (slot.itemID == item.ID) {
                 if (slot.itemObjects.Count < itemsNumberMax) {
                     // pridame
@@ -166,8 +164,7 @@ public class SC_Inventory : MonoBehaviour
     }
 
     // Open/close inventory
-    private void CheckInventory()
-    {
+    private void CheckInventory() {
         States currentState = stateController.getCurrentState();
         bool isInInventory = (currentState == States.OPEN_INVENTORY) || (currentState == States.RECYCLE);
 

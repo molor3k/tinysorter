@@ -4,6 +4,7 @@ using UnityEngine;
 using static SC_ItemTypes;
 
 public class SC_SortingCan : MonoBehaviour {
+    
     public ItemType sortingType;
     public Material highlightMaterial;
 

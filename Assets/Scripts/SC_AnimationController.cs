@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SC_AnimationController : MonoBehaviour {
+    
     private Animator anim;
+
 
     void Start() {
         anim = gameObject.GetComponent<Animator>();

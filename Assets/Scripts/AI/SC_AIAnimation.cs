@@ -8,12 +8,12 @@ public class SC_AIAnimation : MonoBehaviour {
 
     private Animator anim;
 
+
     void Start() {
         anim = gameObject.GetComponent<Animator>();
     }
 
-    void Update()
-    {
+    void Update() {
         SetAnimation();
     }
 

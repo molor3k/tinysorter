@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using static SC_States;
 
-public class SC_StateController : MonoBehaviour
-{
+public class SC_StateController : MonoBehaviour {
+    
     private SC_AnimationController animationController;
     
     public States playingState = States.IDLE;

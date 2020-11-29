@@ -12,6 +12,8 @@ TagManager:
   - Counter
   - Bush
   - SortingCan
+  - AI
+  - Tree
   layers:
   - Default
   - TransparentFX
