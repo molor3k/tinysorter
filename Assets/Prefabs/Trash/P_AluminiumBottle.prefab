@@ -129,6 +129,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: f5db07a79c653a04daaa8e3aee40a32f, type: 3}
   type: 3
   isPickedUp: 0
+  targetPosition: {x: -12.900002, y: 18.750784, z: 60}
 --- !u!114 &9101640703460858933
 MonoBehaviour:
   m_ObjectHideFlags: 0
