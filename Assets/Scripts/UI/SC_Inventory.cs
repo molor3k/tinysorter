@@ -37,6 +37,11 @@ public class SC_Inventory : MonoBehaviour {
         stateController = gameObject.GetComponent<SC_StateController>();
     }
 
+    void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
+
     void Update() {
         CheckInventory();
     }
