@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1591902683}
   - component: {fileID: 2048715164581485947}
   - component: {fileID: 9101640703460858933}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: P_AluminiumBottle
   m_TagString: Item
   m_Icon: {fileID: 0}

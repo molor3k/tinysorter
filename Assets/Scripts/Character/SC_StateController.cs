@@ -118,6 +118,30 @@ public class SC_StateController : MonoBehaviour {
         }
     }
 
+    public void onNono() {
+        if (currentState == States.OPEN_INVENTORY || currentState == States.IDLE) {
+            StartCoroutine(
+                OnResetStateComplete(
+                    (result => {
+                        if (result) {
+                            setCurrentState(States.NONO);
+
+                            StartCoroutine(
+                                OnCompleteAnimation(
+                                    (res => {
+                                        if (res) {
+                                            setCurrentState(previousState);
+                                        }
+                                    })
+                                )
+                            );
+                        }
+                    })
+                )
+            );
+        }
+    }
+
     public void onDropItem() {
         setCurrentState(States.DROP_ITEM);
 

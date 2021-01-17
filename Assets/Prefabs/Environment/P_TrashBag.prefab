@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7437691628584937364}
   - component: {fileID: 9029149757755365231}
   - component: {fileID: 2694879694984650229}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: P_TrashBag
   m_TagString: Item
   m_Icon: {fileID: 0}
@@ -63,6 +63,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 788bf80030b0eb04b84bb177205863f4, type: 3}
   type: 0
   isPickedUp: 0
+  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!135 &2694879694984650229
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -177,6 +178,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: M_TrashBag
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e42eacd76f1d0c149a17292ff8133ed9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e42eacd76f1d0c149a17292ff8133ed9, type: 3}

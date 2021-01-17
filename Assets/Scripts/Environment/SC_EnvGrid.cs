@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GridCell;
 
-[ExecuteInEditMode]
 public class SC_EnvGrid : MonoBehaviour {
 
     public bool isDrawGizmos = false;
@@ -18,16 +18,14 @@ public class SC_EnvGrid : MonoBehaviour {
     private List<GridCell> cells;
 
 
-    void Update() {
-        if (Application.isEditor) {
-            startPosition = startPoint.position;
+    void Start() {
+        startPosition = startPoint.position;
 
-            numberOfRows = (int)Mathf.Abs(Mathf.Floor((endPoint.position.z - startPosition.z) / cellSize));
-            numberOfColumns = (int)Mathf.Abs(Mathf.Floor((endPoint.position.x - startPosition.x) / cellSize));
+        numberOfRows = (int)Mathf.Abs(Mathf.Floor((endPoint.position.z - startPosition.z) / cellSize));
+        numberOfColumns = (int)Mathf.Abs(Mathf.Floor((endPoint.position.x - startPosition.x) / cellSize));
 
-            cells = new List<GridCell>();
-            fillCells();
-        }
+        cells = new List<GridCell>();
+        fillCells();
     }
 
     void fillCells() {
@@ -38,12 +36,18 @@ public class SC_EnvGrid : MonoBehaviour {
         }
     }
 
-    public void cellAddObject(GameObject obj) {
+    public void cellAddObject(GameObject obj, Vector3 targetPos) {
         // todo: add pointer to particular cell for item, so it could easily free cell later
-        Vector2 gridPos = worldToGrid(obj.transform.position);
+        Vector2 gridPos = worldToGrid(targetPos);
         GridCell gridCell = findCellByPosition(gridPos);
 
         gridCell.setObject(obj);
+
+        // Add cell pointer if it's Item
+        SC_Item item = obj.GetComponent<SC_Item>();
+        if (item) {
+            item.cell = gridCell;
+        }
     }
 
     public GridCell findCellByPosition(Vector2 gridPosition) {
@@ -61,25 +65,35 @@ public class SC_EnvGrid : MonoBehaviour {
     }
 
     public bool IsCellFree(GridCell cell) {
-        return (cell.getObject() == null);
+        var isCellFree = false;
+
+        if (System.Object.ReferenceEquals(cell.getObject(), null)) {
+            isCellFree = true;
+        }
+        
+        //Debug.Log("IsCellFree: " + isCellFree);
+        return isCellFree;
     }
 
     public GridCell findFirstFreeCell(Vector2 gridPosition) {
-        Vector2 gridPositionWithOffset = gridPosition - new Vector2(1, 1);
+        Vector2 gridPositionWithOffset = gridPosition + new Vector2(1, 1);
 
         for(var i = 0; i < 3; i++) {
             for(var j = 0; j < 3; j++) {
-                var curPos = gridPositionWithOffset + new Vector2(i, j);
+                var curPos = gridPositionWithOffset - new Vector2(i, j);
 
                 if (curPos != gridPosition) {
                     var cell = findCellByPosition(curPos);
 
                     if (cell != null) {
                         if (IsCellFree(cell)) {
+                            //Debug.Log("Cell is choosed - " + curPos);
                             return cell;
+                        } else {
+                            //Debug.Log("Cell is filled - " + curPos);
                         }
                     } else {
-                        Debug.Log("Cell is null");
+                        //Debug.Log("Cell is null - " + curPos);
                     }
                 }
             }
@@ -118,27 +132,5 @@ public class SC_EnvGrid : MonoBehaviour {
                 Gizmos.DrawCube(worldPos, new Vector3(cubeSize, cubeSize, cubeSize));
             }
         }
-    }
-}
-
-public class GridCell {
-    Vector2 cellPosition;
-    GameObject cellObject;
-
-    public GridCell(Vector2 pos, GameObject obj) {
-        cellPosition = pos;
-        cellObject = obj;
-    }
-
-    public void setObject(GameObject obj) {
-        cellObject = obj;
-    }
-
-    public GameObject getObject() {
-        return cellObject;
-    }
-
-    public Vector2 getPosition() {
-        return cellPosition;
     }
 }

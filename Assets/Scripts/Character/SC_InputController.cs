@@ -8,6 +8,7 @@ public class SC_InputController : MonoBehaviour {
     public bool isWalking = false;
     public bool isRunning = false;
     public bool isOpeningInventory = false;
+    public bool isSelectingStack = false;
     public bool isAction = false;
 
     private bool isCPU = false;
@@ -41,6 +42,7 @@ public class SC_InputController : MonoBehaviour {
             isRunning = Input.GetButton("ButtonRun") && isWalking;
 
             isOpeningInventory = Input.GetButtonDown("ButtonInventory");
+            isSelectingStack = Input.GetButton("ButtonInventoryStackSelect");
             isAction = Input.GetButtonDown("ButtonAction");
 
             inputToState();
@@ -55,27 +57,31 @@ public class SC_InputController : MonoBehaviour {
         bool isClosingRecycling = isAction && (currentState == States.RECYCLE);
         bool isClosingInventory = isOpeningInventory && (currentState == States.OPEN_INVENTORY);
 
-        if (isNotPickingOrDropping) {
-            if (isWalking) {
-                if (isRunning) {
-                    stateController.onRun();
-                } else {
-                    stateController.onWalk();
+        bool isNono = (currentState == States.NONO);
+
+        if (!isNono) {
+            if (isNotPickingOrDropping) {
+                if (isWalking) {
+                    if (isRunning) {
+                        stateController.onRun();
+                    } else {
+                        stateController.onWalk();
+                    }
                 }
             }
-        }
-        
-        if (isInInventory) {
-            if (isClosingInventory || isClosingRecycling) {
-                stateController.onCloseInventory();
-            }
-        } else {
-            if (isOpeningInventory) {
-                stateController.onOpenInventory();
+            
+            if (isInInventory) {
+                if (isClosingInventory || isClosingRecycling) {
+                    stateController.onCloseInventory();
+                }
             } else {
-                if (!isWalking && !isRunning) {
-                    if (isNotPickingOrDropping) {
-                        stateController.onIdle();
+                if (isOpeningInventory) {
+                    stateController.onOpenInventory();
+                } else {
+                    if (!isWalking && !isRunning) {
+                        if (isNotPickingOrDropping) {
+                            stateController.onIdle();
+                        }
                     }
                 }
             }

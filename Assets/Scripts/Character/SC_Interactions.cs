@@ -113,14 +113,17 @@ public class SC_Interactions : MonoBehaviour {
     private void CheckInteraction()  {
         if (inputController.isAction) {
             if (mItemToPickup != null && mItemToPickup.isPickedUp != true) {
-                inventory.AddItemToFreeSlot(mItemToPickup);
-                stateController.onPickItem();
+                if (inventory.AddItemToFreeSlot(mItemToPickup)) {
+                    stateController.onPickItem();
 
-                ClosePanel(actionPanel);
-                ClosePanel(itemNamePanel);
+                    ClosePanel(actionPanel);
+                    ClosePanel(itemNamePanel);
 
-                mItemToPickup = null;
-                currentItem = null;
+                    mItemToPickup = null;
+                    currentItem = null;
+                } else {
+                    stateController.onNono();
+                }
             } else if (canRecycle) {
                 stateController.onRecycle();
             }

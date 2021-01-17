@@ -12,6 +12,7 @@ public class SC_States : MonoBehaviour {
         DROP_ITEM,
         OPEN_INVENTORY,
         CLOSE_INVENTORY,
-        RECYCLE
+        RECYCLE,
+        NONO
     }
 }

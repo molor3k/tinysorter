@@ -49,17 +49,30 @@ public class SC_Slot : MonoBehaviour {
         stackCounter.text = itemObjects.Count.ToString();
     }
 
-    public void DropItem(bool needToDrop) {
-        GameObject itemObject = itemObjects[itemObjects.Count - 1];
-        if (needToDrop) {
-            itemObject.GetComponent<SC_EnvObject>().DropItemOnFreeCell();
-        } else {
-            // TODO: recycle all "destroyed" assets for further use, instead of Instantiate->Destroy cycle
-            Destroy(itemObject);
-        }
+    public bool DropItem(bool needToDrop, bool isDroppingStack) {
+        int startValue = (itemObjects.Count - 1);
+        int endValue = isDroppingStack ? 0 : (itemObjects.Count - 1);
 
-        itemObjects.RemoveAt(itemObjects.Count - 1);
+        bool haveDroppedAnyItem = false;
+
+        for(var i = startValue; i >= endValue; i--) {
+            if (needToDrop) {
+                if (itemObjects[i].GetComponent<SC_EnvObject>().DropItemOnFreeCell()) {
+                    itemObjects.RemoveAt(i);
+                    haveDroppedAnyItem = true;
+                }
+            } else {
+                // TODO: recycle all "destroyed" assets for further use, instead of Instantiate->Destroy cycle
+                Destroy(itemObjects[i]);
+                itemObjects.RemoveAt(i);
+            }
+        }
         stackCounter.text = itemObjects.Count.ToString();
+
+        if (!haveDroppedAnyItem) {
+            return false;
+            //playerObject.GetComponent<SC_StateController>().onNono();
+        }
 
         if (itemObjects.Count == 0) {
             itemID = -1;
@@ -71,5 +84,7 @@ public class SC_Slot : MonoBehaviour {
 
             stackCounter.text = "";
         }
+
+        return true;
     }
 }

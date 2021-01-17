@@ -26,7 +26,7 @@ public class SC_Inventory : MonoBehaviour {
 
     private bool inventoryEnabled;
     private int slotsNumber = 7;
-    private int itemsNumberMax = 9;
+    private int itemsNumberMax = 8;
 
 
     void Start() {
@@ -54,16 +54,18 @@ public class SC_Inventory : MonoBehaviour {
         }
     }
 
-    public void AddItemToFreeSlot(SC_Item item) {
-        int freeSlotID = 0;
+    public bool AddItemToFreeSlot(SC_Item item) {
+        int freeSlotID = -1;
         int currentSlotID = 0;
 
         foreach (var slot in slotList) {
             if (slot.itemID == item.ID) {
                 if (slot.itemObjects.Count < itemsNumberMax) {
                     // pridame
-                    slot.AddItem(item);
-                    return;
+                    // slot.AddItem(item);
+                    // return false;
+                    freeSlotID = currentSlotID;
+                    break;
                 }
             } else {
                 if (slot.itemObjects.Count == 0) {
@@ -77,16 +79,26 @@ public class SC_Inventory : MonoBehaviour {
         }
 
         // pridat ak nebol najdeny ziadny element
-        SC_Slot freeSlot = slotList.ElementAt(freeSlotID);
-        freeSlot.AddItem(item);
+        if (freeSlotID != -1) {
+            SC_Slot freeSlot = slotList.ElementAt(freeSlotID);
+            freeSlot.AddItem(item);
+
+            // Set state to "Pick Item"
+            return true;
+        }
+
+        return false;
     }
 
-    public void DropSelectedItem(bool needToDrop) {
+    public void DropSelectedItem(bool needToDrop, bool isDroppingStack) {
         SC_Slot currentSlot = slotList.ElementAt(currentSlotID);
-        currentSlot.DropItem(needToDrop);
+        if (currentSlot.DropItem(needToDrop, isDroppingStack)) {
+            stateController.onDropItem();
+            currentSlotID = -1;
+        } else {
+            stateController.onNono();
+        }
 
-        stateController.onDropItem();
-        currentSlotID = -1;
     }
 
     public SC_Slot GetSelectedItem() {

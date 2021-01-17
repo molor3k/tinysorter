@@ -9,14 +9,17 @@ public class SC_ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler {
 
     private Transform selectedSortingCan;
     private SC_Inventory inventory;
+    private SC_InputController inputController;
     private SC_Interactions interactionController;
     private SC_StateController stateController;
+    private bool isDraggingStack = false;
 
 
     void Start() {
         GameObject player = GameObject.Find("Player");
 
         inventory = player.GetComponent<SC_Inventory>();
+        inputController = player.GetComponent<SC_InputController>();
         interactionController = player.GetComponent<SC_Interactions>();
         stateController = player.GetComponent<SC_StateController>();
     }
@@ -30,6 +33,11 @@ public class SC_ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler {
             ResetValues();
         } else {
             RaycastHit hit;
+
+            // Get isDraggingStack value
+            if (inventory.currentSlotID == -1) {
+                isDraggingStack = inputController.isSelectingStack; ///////
+            }
 
             // Dragging and changing inventory slot
             transform.position = Input.mousePosition;
@@ -68,9 +76,9 @@ public class SC_ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler {
         States currentState = stateController.getCurrentState();
 
         if (currentState == States.OPEN_INVENTORY) {
-            OnDropItem();
+            OnDropItem(isDraggingStack);
         } else if (currentState == States.RECYCLE) {
-            OnRecycleItem();
+            OnRecycleItem(isDraggingStack);
         }
 
         ResetValues();
@@ -82,15 +90,15 @@ public class SC_ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler {
         selectedSortingCan = null;
     }
 
-    private void OnDropItem() {
+    private void OnDropItem(bool isDroppingStack) {
         RectTransform invPanel = inventory.transform as RectTransform;
 
         if (!RectTransformUtility.RectangleContainsScreenPoint(invPanel, Input.mousePosition)) {
-            inventory.DropSelectedItem(true);
+            inventory.DropSelectedItem(true, isDroppingStack);
         }
     }
 
-    private void OnRecycleItem() {
+    private void OnRecycleItem(bool isDroppingStack) {
         if (selectedSortingCan) {
             SC_SortingCan sortingCan = selectedSortingCan.GetComponent<SC_SortingCan>();
             SC_Slot inventorySlot = inventory.GetSelectedItem();
@@ -106,7 +114,7 @@ public class SC_ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler {
             
             // Clear material of previously selected sorting can and drop current item
             sortingCan.OutlineCan(false);
-            inventory.DropSelectedItem(false);
+            inventory.DropSelectedItem(false, isDroppingStack);
         }
     }
 }

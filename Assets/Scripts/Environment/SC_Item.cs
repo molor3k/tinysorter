@@ -5,6 +5,7 @@ using UnityEngine;
 
 using static EasingFunction;
 using static SC_ItemTypes;
+using static GridCell;
 
 public class SC_Item : MonoBehaviour {
     
@@ -17,6 +18,7 @@ public class SC_Item : MonoBehaviour {
     public bool isPickedUp;
 
     private SC_Inventory inventory;
+    public GridCell cell;
 
     private bool isOnTargetPos = true;
     public Vector3 targetPosition;
@@ -47,7 +49,7 @@ public class SC_Item : MonoBehaviour {
                 transform.position, 
                 targetPosition, 
                 Ease.EaseInSine,
-                .025f
+                .02f
             )
         );
 
@@ -64,7 +66,7 @@ public class SC_Item : MonoBehaviour {
                 new Vector3(0, 0.0f, 0), 
                 new Vector3(0, 1.0f, 0), 
                 Ease.Spring,
-                .03f
+                .025f
             )
         );
 
@@ -80,6 +82,8 @@ public class SC_Item : MonoBehaviour {
     }
 
     public void PickItem() {
+        cell.Clear();
+
         gameObject.SetActive(false);
         isPickedUp = true;
         inventory.pointsForSorting++;
