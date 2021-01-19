@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using TMPro;
+
 
 public class SC_GameOver : MonoBehaviour
 {
@@ -14,11 +16,13 @@ public class SC_GameOver : MonoBehaviour
 
     void Start()
     {
-        GameOverButton();
+        /*GameOverButton();
         timer = GameObject.Find("GameManager").GetComponent<SC_Timer>();
-        inventory = GameObject.Find("Player").GetComponent<SC_Inventory>();
+        inventory = GameObject.Find("Player").GetComponent<SC_Inventory>();*/
         Destroy(GameObject.Find("GameManager"));
         Destroy(GameObject.Find("Player"));
+
+        SceneManager.LoadScene("S_Main");
     }
 
     void Update() {

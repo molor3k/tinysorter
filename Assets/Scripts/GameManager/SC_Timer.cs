@@ -5,6 +5,7 @@ using TMPro;
 
 public class SC_Timer : MonoBehaviour {
     
+    public GameObject gameOverMenu;
     public float time = 1200;
     public SC_Inventory inventory;
     
@@ -53,7 +54,10 @@ public class SC_Timer : MonoBehaviour {
                 string seconds = 0.ToString("00");
                 timerText.text = minutes + ":" + seconds;
 
-                UnityEngine.SceneManagement.SceneManager.LoadScene("S_GameOver");
+                Time.timeScale = 0f;
+                gameOverMenu.SetActive(true);
+                gameOverMenu.transform.GetChild(2).transform.GetChild(0).GetComponent<TMP_Text>().text = pointsText.text;
+                //UnityEngine.SceneManagement.SceneManager.LoadScene("S_GameOver");
             }
         }
     }

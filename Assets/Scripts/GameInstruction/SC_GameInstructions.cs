@@ -14,7 +14,7 @@ public class SC_GameInstructions : MonoBehaviour {
     }
 
     void Update() {
-        if (count > 750) {
+        if (count > 300) {
             UnityEngine.SceneManagement.SceneManager.LoadScene("S_Main");
         }
 

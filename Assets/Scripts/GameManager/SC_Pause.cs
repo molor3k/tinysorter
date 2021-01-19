@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SC_Pause : MonoBehaviour {
 
@@ -41,7 +42,13 @@ public class SC_Pause : MonoBehaviour {
         }
     }
 
+    public void RestartButton() {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("S_GameOver");
+    }
+
     public void QuitButton() {
-        Application.Quit();
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("S_MainMenu");
     }
 }

@@ -45,7 +45,7 @@ public class SC_Movement : MonoBehaviour {
         stateController = gameObject.GetComponent<SC_StateController>();
         inputController = gameObject.GetComponent<SC_InputController>();
 
-        dustParticles.GetComponent<ParticleSystem>().Stop();
+        //dustParticles.GetComponent<ParticleSystem>().Stop();
     }
 
     void Update() {
@@ -158,7 +158,7 @@ public class SC_Movement : MonoBehaviour {
     }*/
 }
 
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(SC_Movement))]
 public class SC_MovementEditor : Editor {
     public override void OnInspectorGUI() {
@@ -188,3 +188,4 @@ public class SC_MovementEditor : Editor {
         scr.turnSmoothTime = EditorGUI.Slider(EditorGUILayout.GetControlRect(), scr.turnSmoothTime, 0.0f, 1.0f);
     }
 }
+#endif
