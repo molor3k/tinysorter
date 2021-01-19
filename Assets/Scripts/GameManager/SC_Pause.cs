@@ -26,10 +26,10 @@ public class SC_Pause : MonoBehaviour {
     private bool togglePause() {
         if(Time.timeScale == 0f) {
             Time.timeScale = 1f;
-            return(false);
+            return false;
         } else {
             Time.timeScale = 0f;
-            return(true);    
+            return true;    
         }
     }
 

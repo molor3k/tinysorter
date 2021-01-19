@@ -6,14 +6,24 @@ using TMPro;
 public class SC_Timer : MonoBehaviour {
     
     public float time = 1200;
+    public SC_Inventory inventory;
     
     private TMP_Text timerText;
+    private TMP_Text pointsText;
     
 
     void Start() {
-        timerText = GameObject.Find("Timer").transform.GetChild(0).GetComponent<TMP_Text>();
-        
+        GameObject player = GameObject.Find("Player");
+        inventory = player.GetComponent<SC_Inventory>();
+
+        timerText = GameObject.Find("Timer").transform.GetChild(3).GetComponent<TMP_Text>();
+        pointsText = GameObject.Find("Points").transform.GetChild(3).GetComponent<TMP_Text>();
+
         StartCoundownTimer();
+    }
+
+    void Update() {
+        pointsText.text = inventory.pointsForSorting.ToString();
     }
 
     void Awake()
@@ -24,7 +34,7 @@ public class SC_Timer : MonoBehaviour {
     void StartCoundownTimer() {
         if (timerText != null) {
             time = 720;
-            timerText.text = "Time Left: 12:00";
+            timerText.text = "12:00";
             InvokeRepeating("UpdateTimer", 0.0f, 0.01667f);
         }
     }
@@ -35,13 +45,13 @@ public class SC_Timer : MonoBehaviour {
                 time -= Time.deltaTime;
                 string minutes = Mathf.Floor(time / 60).ToString("00");
                 string seconds = (time % 60).ToString("00");
-                timerText.text = "Time Left: " + minutes + ":" + seconds;
+                timerText.text = minutes + ":" + seconds;
 
             } else {
                 time = 0;
                 string minutes = 0.ToString("00");
                 string seconds = 0.ToString("00");
-                timerText.text = "Time Left: " + minutes + ":" + seconds;
+                timerText.text = minutes + ":" + seconds;
 
                 UnityEngine.SceneManagement.SceneManager.LoadScene("S_GameOver");
             }

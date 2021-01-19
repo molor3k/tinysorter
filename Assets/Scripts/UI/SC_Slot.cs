@@ -69,12 +69,7 @@ public class SC_Slot : MonoBehaviour {
         }
         stackCounter.text = itemObjects.Count.ToString();
 
-        if (!haveDroppedAnyItem) {
-            return false;
-            //playerObject.GetComponent<SC_StateController>().onNono();
-        }
-
-        if (itemObjects.Count == 0) {
+        if (itemObjects.Count < 1) {
             itemID = -1;
             itemType = ItemType.None;
             itemName = "";
@@ -83,6 +78,11 @@ public class SC_Slot : MonoBehaviour {
             itemIcon.enabled = false;
 
             stackCounter.text = "";
+        }
+
+        if (!haveDroppedAnyItem) {
+            return false;
+            //playerObject.GetComponent<SC_StateController>().onNono();
         }
 
         return true;
