@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 8961549754278228952}
   - component: {fileID: 5472447012004772989}
   - component: {fileID: 7788692816777038007}
-  - component: {fileID: 539551096838062173}
   - component: {fileID: 1591902683}
   - component: {fileID: 2048715164581485947}
   - component: {fileID: 9101640703460858933}
+  - component: {fileID: 8892278110584030034}
   m_Layer: 10
   m_Name: P_AluminiumBottle
   m_TagString: Item
@@ -83,19 +83,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &539551096838062173
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8581049069001927010}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.03
-  m_Center: {x: 0, y: 0.007, z: 0}
 --- !u!208 &1591902683
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -103,7 +90,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8581049069001927010}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.009000001, y: 0.011000001, z: 0.010000001}
@@ -142,3 +129,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcd89592d1e874d4d948859a38a2ae91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &8892278110584030034
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8581049069001927010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}

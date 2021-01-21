@@ -230,6 +230,11 @@ PrefabInstance:
       propertyPath: m_DynamicOccludee
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7146521406498821007, guid: b714f05694abd3b4ab50a4068506b188,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -6093592463355912122, guid: b714f05694abd3b4ab50a4068506b188,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -284,6 +289,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: M_ParkBench
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b714f05694abd3b4ab50a4068506b188,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6745302439343835087, guid: b714f05694abd3b4ab50a4068506b188,
         type: 3}
